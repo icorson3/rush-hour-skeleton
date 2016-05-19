@@ -49,6 +49,7 @@ class PayloadParser
     IpAddress.where(ip_address: payload["ip"]).first_or_create
   end
 
+  # def populate_client_table
  #method that creates payload will call all these other methods
  def populate_payload_requests
    PayloadRequest.create({
