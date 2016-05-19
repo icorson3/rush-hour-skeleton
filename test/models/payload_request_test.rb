@@ -97,6 +97,10 @@ class PayloadRequestTest < Minitest::Test
     assert_respond_to(@payload, :ip_address)
   end
 
+  def test_it_has_relationship_with_client
+    assert_respond_to(@payload, :client)
+  end
+
   def test_it_can_create_n_number_raw_payloads
     assert_equal 3, create_payloads(3).count
   end

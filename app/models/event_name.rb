@@ -6,6 +6,6 @@ class EventName < ActiveRecord::Base
 
   def self.most_to_least_requested_event_names
     ids = PayloadRequest.group(:event_name_id).count.sort_by {|k,v,| v}.reverse
-    ids.map {|id| EventName.find(id[0]).event_name}
+    ids.map {|id| EventName.find(id[0]).event_name }
   end
 end
