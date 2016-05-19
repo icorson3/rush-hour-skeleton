@@ -34,7 +34,7 @@ class EventNameTest < Minitest::Test
     assert_respond_to(name, :payload_requests)
   end
 
-  def test_it_can_give_the_most_to_least_requested_urls
+  def test_it_can_give_the_most_to_least_requested_events_names
     p1 = '{
       "url":"'"http://jumpstartlab.com/"'",
       "requestedAt":"'"#{Time.now}"'",
