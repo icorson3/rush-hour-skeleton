@@ -8,10 +8,7 @@ class RequestType < ActiveRecord::Base
   end
 
   def self.most_frequent_request_verbs
-    # self.all.max_by do |rtype|
-    #   rtype.payload_requests.count
-    # end
-    # binding.pry
-    self.group(:request_type).count
+    PayloadRequest.group(:request_type)
+    require "pry"; binding.pry
   end
 end
