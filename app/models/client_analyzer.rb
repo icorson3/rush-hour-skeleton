@@ -10,7 +10,6 @@ class ClientAnalyzer
   end
 
   def create_or_find_client
-    binding.pry
 
     cs = Client.new(identifier: identifier, root_url: root_url)
     if !cs.save
