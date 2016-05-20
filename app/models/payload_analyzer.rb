@@ -47,7 +47,7 @@ class PayloadAnalyzer
   end
 
  def populate_payload_requests
-   payload = PayloadRequest.new({
+   pl = PayloadRequest.new({
     url_id: populate_urls.id,
     requested_at: payload["requestedAt"],
     responded_in: payload["respondedIn"],
@@ -60,22 +60,23 @@ class PayloadAnalyzer
     ip_address_id: populate_ip_addresses.id,
     client_id: client_id
    })
-   payload.save
+   pl.save
  end
 
  def payload_status
    if !populate_payload_requests
-     if error_messages == "Identifier has already been taken"
+     if error_messages.include?("has already been taken")
        @status = 403
        @body = error_messages
      else
        @status = 400
-       @body = error messages
+       @body = error_messages
+     end
    end
  end
 
  def error_messages
-   populate_payload_requests.errors.fulll_messages.join(", ")
+   populate_payload_requests.errors.full_messages.join(", ")
  end
 
 end

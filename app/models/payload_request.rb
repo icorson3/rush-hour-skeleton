@@ -11,6 +11,8 @@ class PayloadRequest < ActiveRecord::Base
             :ip_address_id,
              presence: true
 
+
+
   belongs_to :url
   belongs_to :reference
   belongs_to :request_type
