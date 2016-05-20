@@ -119,7 +119,7 @@ class EventNameTest < Minitest::Test
       "ip":"'"63.29.38.21#{3}"'"
     }'
     payloads = [p1, p2, p3, p4, p5, p6]
-    payloads.each {|payload| PayloadParser.new(payload)}
+    payloads.each {|payload| PayloadAnalyzer.new(payload)}
     en1 = "login"
     en2 = "search"
     en3 = "socialLogin"

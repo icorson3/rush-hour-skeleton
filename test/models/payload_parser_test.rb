@@ -1,6 +1,6 @@
 require_relative '../test_helper'
 
-class PayloadParserTest < Minitest::Test
+class PayloadAnalyzerTest < Minitest::Test
   include TestHelpers
   def setup
     @payload =
@@ -49,52 +49,52 @@ class PayloadParserTest < Minitest::Test
      "resolutionHeight" => "1280",
      "ip" => "63.29.38.211"
     }
-    pp = PayloadParser.new(input)
+    pp = PayloadAnalyzer.new(input)
 
     assert_equal payload, pp.payload
   end
 
   def test_it_can_populate_the_urls_table
-    pp = PayloadParser.new(@payload)
+    pp = PayloadAnalyzer.new(@payload)
 
     urls = pp.populate_urls
     assert_equal "http://jumpstartlab.com/blog", urls.url
   end
 
   def test_it_can_populate_the_references_table
-    pp = PayloadParser.new(@payload)
+    pp = PayloadAnalyzer.new(@payload)
     references = pp.populate_references
     assert_equal "http://jumpstartlab.com", references.reference
   end
 
   def test_it_can_populate_request_types_table
-    pp = PayloadParser.new(@payload)
+    pp = PayloadAnalyzer.new(@payload)
     request = pp.populate_request_types
     assert_equal "GET", request.request_type
   end
 
   def test_it_can_populate_the_event_name_table
-    pp = PayloadParser.new(@payload)
+    pp = PayloadAnalyzer.new(@payload)
     event_names = pp.populate_event_names
     assert_equal "socialLogin", event_names.event_name
   end
 
   def test_it_can_populate_user_agents_table
-    pp = PayloadParser.new(@payload)
+    pp = PayloadAnalyzer.new(@payload)
     agents = pp.populate_software_agents
     assert_equal "Chrome", agents.browser
     assert_equal "OS X 10.8.2", agents.os
   end
 
   def test_it_can_populate_the_resolutions_table
-    pp = PayloadParser.new(@payload)
+    pp = PayloadAnalyzer.new(@payload)
     resolutions = pp.populate_resolutions
     assert_equal "1920", resolutions.resolution_width
     assert_equal "1280", resolutions.resolution_height
   end
 
   def test_it_can_populate_ip_addresses_table
-    pp = PayloadParser.new(@payload)
+    pp = PayloadAnalyzer.new(@payload)
     ips = pp.populate_ip_addresses
     assert_equal "63.29.38.211", ips.ip_address
   end
@@ -102,7 +102,7 @@ class PayloadParserTest < Minitest::Test
   def test_it_can_populate_all_the_tables
     payloads = create_payloads(2)
     payloads.each do |payload|
-      PayloadParser.new(payload)
+      PayloadAnalyzer.new(payload)
     end
     assert_equal 2, PayloadRequest.count
   end

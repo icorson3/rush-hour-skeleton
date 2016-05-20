@@ -107,20 +107,20 @@ class PayloadRequestTest < Minitest::Test
 
   def test_it_can_find_the_average_response_time
     payloads = create_payloads(3)
-    payloads.each {|payload| PayloadParser.new(payload)}
+    payloads.each {|payload| PayloadAnalyzer.new(payload)}
     assert_equal 10, PayloadRequest.average_response_time
   end
 
   def test_it_can_find_the_maximum_response_time
     payloads = create_payloads(3)
-    payloads.each {|payload| PayloadParser.new(payload)}
+    payloads.each {|payload| PayloadAnalyzer.new(payload)}
     assert_equal 20, PayloadRequest.maximum_response_time
 
   end
 
   def test_it_can_find_the_minimum_response_time
     payloads = create_payloads(3)
-    payloads.each {|payload| PayloadParser.new(payload)}
+    payloads.each {|payload| PayloadAnalyzer.new(payload)}
     assert_equal 0, PayloadRequest.minimum_response_time
   end
 

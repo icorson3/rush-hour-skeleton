@@ -1,16 +1,10 @@
-class PayloadParser
+class PayloadAnalyzer
   attr_reader :payload
 
   def initialize(payload)
     @payload = JSON.parse(payload)
     populate_payload_requests
   end
-  #initialize with payload as ivar instead of passing it
-  #over and over again
-
-  # def parse_json(string)
-  #   JSON.parse(string)
-  # end
 
   def populate_urls
     url = payload["url"]
@@ -49,7 +43,6 @@ class PayloadParser
     IpAddress.where(ip_address: payload["ip"]).first_or_create
   end
 
- #method that creates payload will call all these other methods
  def populate_payload_requests
    PayloadRequest.create({
     url_id: populate_urls.id,

@@ -35,7 +35,7 @@ class RequestTypeTest < Minitest::Test
 
   def test_all_verbs
     payloads = create_payloads(1)
-    payloads.each {|payload| PayloadParser.new(payload)}
+    payloads.each {|payload| PayloadAnalyzer.new(payload)}
     verb = RequestType.find(1).request_type
     assert_equal [verb], RequestType.all_verbs
   end
@@ -83,7 +83,7 @@ class RequestTypeTest < Minitest::Test
       "ip":"'"63.29.38.21#{3}"'"
     }'
     payloads = [p1, p2, p3]
-    payloads.each {|payload| PayloadParser.new(payload)}
+    payloads.each {|payload| PayloadAnalyzer.new(payload)}
     assert_equal "GET", RequestType.most_frequent_request_verbs
   end
 
@@ -117,7 +117,7 @@ class RequestTypeTest < Minitest::Test
           "ip":"'"63.29.38.21#{3}"'"
         }'
     payloads = [p1, p2]
-    payloads.each {|payload| PayloadParser.new(payload)}
+    payloads.each {|payload| PayloadAnalyzer.new(payload)}
     assert_equal "GET", RequestType.most_frequent_request_verbs
 
   end

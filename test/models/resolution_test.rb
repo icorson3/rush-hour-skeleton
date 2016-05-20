@@ -78,7 +78,7 @@ class ResolutionTest < Minitest::Test
     }'
 
     payloads = [p1, p2, p3]
-    payloads.each {|payload| PayloadParser.new(payload)}
+    payloads.each {|payload| PayloadAnalyzer.new(payload)}
     r1 = ["1920", "1280"]
     r2 =[ "192", "128"]
     r3 = ["19", "12"]
