@@ -1,9 +1,12 @@
 class PayloadAnalyzer
-  attr_reader :payload
+  attr_reader :payload, :client_id
 
-  def initialize(payload)
+  def initialize(payload, client_id)
+    @client_id = client_id
     @payload = JSON.parse(payload)
     populate_payload_requests
+    @status = 200
+    @body = "Payload requested successfully"
   end
 
   def populate_urls
@@ -44,7 +47,7 @@ class PayloadAnalyzer
   end
 
  def populate_payload_requests
-   PayloadRequest.create({
+   payload = PayloadRequest.new({
     url_id: populate_urls.id,
     requested_at: payload["requestedAt"],
     responded_in: payload["respondedIn"],
@@ -54,8 +57,25 @@ class PayloadAnalyzer
     event_name_id: populate_event_names.id,
     software_agent_id: populate_software_agents.id,
     resolution_id: populate_resolutions.id,
-    ip_address_id: populate_ip_addresses.id
+    ip_address_id: populate_ip_addresses.id,
+    client_id: client_id
    })
+   payload.save
+ end
+
+ def payload_status
+   if !populate_payload_requests
+     if error_messages == "Identifier has already been taken"
+       @status = 403
+       @body = error_messages
+     else
+       @status = 400
+       @body = error messages
+   end
+ end
+
+ def error_messages
+   populate_payload_requests.errors.fulll_messages.join(", ")
  end
 
 end

@@ -107,5 +107,9 @@ class PayloadAnalyzerTest < Minitest::Test
     assert_equal 2, PayloadRequest.count
   end
 
+  def test_it_can_give_the_correct_payload_status_based_on_validations
+    
+  end
+
 
 end
