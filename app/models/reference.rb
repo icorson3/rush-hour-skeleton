@@ -1,5 +1,7 @@
 class Reference < ActiveRecord::Base
-  validates "reference", presence: true
+  validates :reference, presence: true
 
-  belongs_to :payload_requests
+  has_many :payload_requests
+  has_many :urls, through: :payload_requests
+
 end

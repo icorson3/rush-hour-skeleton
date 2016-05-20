@@ -1,14 +1,16 @@
 class RequestType < ActiveRecord::Base
-  validates "request_type", presence: true
+  validates :request_type, presence: true
 
-  belongs_to :payload_requests
+  has_many :payload_requests
+  has_many :urls, through: :payload_requests
 
   def self.all_verbs
-    self.all.map { |verb| verb.request_type }
+    self.pluck(:request_type)
   end
 
   def self.most_frequent_request_verbs
-    PayloadRequest.group(:request_type)
-    require "pry"; binding.pry
+    self.all.max_by do |rtype|
+      rtype.payload_requests.count
+    end.request_type
   end
 end
