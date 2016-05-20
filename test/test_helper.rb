@@ -18,7 +18,7 @@ module TestHelpers
   include Rack::Test::Methods
 
   def app
-    Server
+    RushHourApp
   end
 
   def setup
