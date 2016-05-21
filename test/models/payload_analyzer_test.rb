@@ -54,62 +54,80 @@ class PayloadAnalyzerTest < Minitest::Test
     assert_equal payload, pp.payload
   end
 
-  # def test_it_can_populate_the_urls_table
-  #   pp = PayloadAnalyzer.new(@payload, 1)
-  #
-  #   urls = pp.populate_urls
-  #   assert_equal "http://jumpstartlab.com/blog", urls.url
-  # end
-  #
-  # def test_it_can_populate_the_references_table
-  #   pp = PayloadAnalyzer.new(@payload, 1)
-  #   references = pp.populate_references
-  #   assert_equal "http://jumpstartlab.com", references.reference
-  # end
-  #
-  # def test_it_can_populate_request_types_table
-  #   pp = PayloadAnalyzer.new(@payload, 1)
-  #   request = pp.populate_request_types
-  #   assert_equal "GET", request.request_type
-  # end
-  #
-  # def test_it_can_populate_the_event_name_table
-  #   pp = PayloadAnalyzer.new(@payload, 1)
-  #   event_names = pp.populate_event_names
-  #   assert_equal "socialLogin", event_names.event_name
-  # end
-  #
-  # def test_it_can_populate_user_agents_table
-  #   pp = PayloadAnalyzer.new(@payload, 1)
-  #   agents = pp.populate_software_agents
-  #   assert_equal "Chrome", agents.browser
-  #   assert_equal "OS X 10.8.2", agents.os
-  # end
-  #
-  # def test_it_can_populate_the_resolutions_table
-  #   pp = PayloadAnalyzer.new(@payload, 1)
-  #   resolutions = pp.populate_resolutions
-  #   assert_equal "1920", resolutions.resolution_width
-  #   assert_equal "1280", resolutions.resolution_height
-  # end
-  #
-  # def test_it_can_populate_ip_addresses_table
-  #   pp = PayloadAnalyzer.new(@payload, 1)
-  #   ips = pp.populate_ip_addresses
-  #   assert_equal "63.29.38.211", ips.ip_address
-  # end
-  #
-  # def test_it_can_populate_all_the_tables
-  #   payloads = create_payloads(2)
-  #   payloads.each do |payload|
-  #     PayloadAnalyzer.new(payload, 1)
-  #   end
-  #   assert_equal 2, PayloadRequest.count
-  # end
-  #
-  # def test_it_can_give_the_correct_payload_status_based_on_validations
-  #   skip
-  # end
+  def test_it_can_populate_the_urls_table
+    pp = PayloadAnalyzer.new(@payload, 1)
 
+    urls = pp.populate_urls
+    assert_equal "http://jumpstartlab.com/blog", urls.url
+  end
+
+  def test_it_can_populate_the_references_table
+    pp = PayloadAnalyzer.new(@payload, 1)
+    references = pp.populate_references
+    assert_equal "http://jumpstartlab.com", references.reference
+  end
+
+  def test_it_can_populate_request_types_table
+    pp = PayloadAnalyzer.new(@payload, 1)
+    request = pp.populate_request_types
+    assert_equal "GET", request.request_type
+  end
+
+  def test_it_can_populate_the_event_name_table
+    pp = PayloadAnalyzer.new(@payload, 1)
+    event_names = pp.populate_event_names
+    assert_equal "socialLogin", event_names.event_name
+  end
+
+  def test_it_can_populate_user_agents_table
+    pp = PayloadAnalyzer.new(@payload, 1)
+    agents = pp.populate_software_agents
+    assert_equal "Chrome", agents.browser
+    assert_equal "OS X 10.8.2", agents.os
+  end
+
+  def test_it_can_populate_the_resolutions_table
+    pp = PayloadAnalyzer.new(@payload, 1)
+    resolutions = pp.populate_resolutions
+    assert_equal "1920", resolutions.resolution_width
+    assert_equal "1280", resolutions.resolution_height
+  end
+
+  def test_it_can_populate_ip_addresses_table
+    pp = PayloadAnalyzer.new(@payload, 1)
+    ips = pp.populate_ip_addresses
+    assert_equal "63.29.38.211", ips.ip_address
+  end
+
+  def test_it_can_populate_all_the_tables
+    payloads = create_payloads(2)
+    payloads.each do |payload|
+      PayloadAnalyzer.new(payload, 1)
+    end
+    assert_equal 2, PayloadRequest.count
+    assert pa.populate_payload_requests
+  end
+
+  def test_cant_populate_tables_if_data_is_incomplete
+    bad_payload =
+    '{
+     "requestedAt":"2013-02-16 21:38:28 -0700",
+    }'
+    pa = PayloadAnalyzer.new(bad_payload, 1)
+    refute pa.populate_payload_requests
+  end
+
+  def test_it_gives_error_if_the_payload_is_missing
+    pa = PayloadAnalyzer.new("", 1)
+    assert_equal nil, pa.payload
+    assert_equal 403, pa.status
+    assert_equal "", pa.body
+  end
+
+  def test_it_gives_error_if_the_payload_has_already_been_received
+    2.times {PayloadAnalyzer.new(@payload, 1)}
+    assert_equal 403, PayloadAnalyzer.status
+    assert_equal "", PayloadAnalyzer.body
+  end
 
 end
