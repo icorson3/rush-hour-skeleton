@@ -105,29 +105,30 @@ class PayloadAnalyzerTest < Minitest::Test
       PayloadAnalyzer.new(payload, 1)
     end
     assert_equal 2, PayloadRequest.count
-    assert pa.populate_payload_requests
   end
 
   def test_cant_populate_tables_if_data_is_incomplete
-    bad_payload =
-    '{
-     "requestedAt":"2013-02-16 21:38:28 -0700",
-    }'
+    skip
+    bad_payload = 'payload={"ip":"63.29.38.211"}'
     pa = PayloadAnalyzer.new(bad_payload, 1)
     refute pa.populate_payload_requests
   end
 
   def test_it_gives_error_if_the_payload_is_missing
-    pa = PayloadAnalyzer.new("", 1)
-    assert_equal nil, pa.payload
-    assert_equal 403, pa.status
-    assert_equal "", pa.body
+    pa = PayloadAnalyzer.new(nil, 1)
+    assert_equal 400, pa.status
+    assert_equal "Please send payload parameters with request.", pa.body
   end
 
   def test_it_gives_error_if_the_payload_has_already_been_received
-    2.times {PayloadAnalyzer.new(@payload, 1)}
-    assert_equal 403, PayloadAnalyzer.status
-    assert_equal "", PayloadAnalyzer.body
+    successfull = PayloadAnalyzer.new(@payload, 1)
+    assert_equal 1, PayloadRequest.count
+    assert_equal 200, successfull.status
+    assert_equal "Payload requested successfully", successfull.body
+
+    unsuccessful = PayloadAnalyzer.new(@payload, 1)
+    assert_equal 403, unsuccessful.status
+    assert_equal "", unsuccessful.body
   end
 
 end

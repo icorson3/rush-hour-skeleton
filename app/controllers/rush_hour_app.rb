@@ -14,7 +14,6 @@ class RushHourApp < Sinatra::Base
     else
       id = client[0].id
       payload = PayloadAnalyzer.new(params[:payload], id)
-      binding.pry
       status payload.status
       body payload.body
     end

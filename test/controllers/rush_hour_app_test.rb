@@ -62,15 +62,15 @@ class RushHourAppTest < Minitest::Test
   end
 
   def test_it_sends_error_if_request_is_sent_without_payload
-    payload_params = 'payload='
     Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
-    post '/sources/jumpstartlab/data', payload_params
+    post '/sources/jumpstartlab/data'
     assert_equal 400, last_response.status
     assert_equal 0, PayloadRequest.count
-    assert_equal "", last_response.body
+    assert_equal "Please send payload parameters with request.", last_response.body
   end
 
   def test_it_sends_error_if_the_payload_request_has_already_been_received
+    skip
     raw_payload =
     'payload={
       "url":"http://jumpstartlab.com/blog",
@@ -105,8 +105,7 @@ class RushHourAppTest < Minitest::Test
     post '/sources/jumpstartlab/data', raw_payload
     assert_equal 0, Client.count
     assert_equal 403, last_response.status
-    assert_equal "Application URL does not exist", last_response.body
+    assert_equal "The client jumpstartlab has not been registered with the application.", last_response.body
   end
-
 
 end
