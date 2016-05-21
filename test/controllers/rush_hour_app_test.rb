@@ -39,7 +39,7 @@ class RushHourAppTest < Minitest::Test
     assert_equal "Root url can't be blank", last_response.body
   end
 
-  def test_it_can_load_a_unique_payload_request
+  def test_it_can_send_a_unique_payload_request
     skip
     raw_payload =
     'payload={
@@ -60,4 +60,53 @@ class RushHourAppTest < Minitest::Test
     assert_equal 200, last_response.status
     assert_equal "Payload created successfully", last_response.body
   end
+
+  def test_it_sends_error_if_request_is_sent_without_payload
+    payload_params = 'payload='
+    Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
+    post '/sources/jumpstartlab/data', payload_params
+    assert_equal 400, last_response.status
+    assert_equal 0, PayloadRequest.count
+    assert_equal "", last_response.body
+  end
+
+  def test_it_sends_error_if_the_payload_request_has_already_been_received
+    raw_payload =
+    'payload={
+      "url":"http://jumpstartlab.com/blog",
+      "requestedAt":"2013-02-16 21:38:28 -0700",
+      "respondedIn":37,"referredBy":"http://jumpstartlab.com",
+      "requestType":"GET",
+      "parameters":[],"eventName":"socialLogin",
+      "userAgent":"Mozilla/5.0 (Macintosh%3B Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
+      "resolutionWidth":"1920",
+      "resolutionHeight":"1280",
+      "ip":"63.29.38.211"}'
+
+    Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
+
+    2.times {post '/sources/jumpstartlab/data', raw_payload}
+    assert_equal 403, last_response.status
+    assert_equal "Payload already exists", last_response.body
+  end
+
+  def test_it_cant_accept_payload_from_an_unregistered_client
+    raw_payload =
+    'payload={
+      "url":"http://jumpstartlab.com/blog",
+      "requestedAt":"2013-02-16 21:38:28 -0700",
+      "respondedIn":37,"referredBy":"http://jumpstartlab.com",
+      "requestType":"GET",
+      "parameters":[],"eventName":"socialLogin",
+      "userAgent":"Mozilla/5.0 (Macintosh%3B Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
+      "resolutionWidth":"1920",
+      "resolutionHeight":"1280",
+      "ip":"63.29.38.211"}'
+    post '/sources/jumpstartlab/data', raw_payload
+    assert_equal 0, Client.count
+    assert_equal 403, last_response.status
+    assert_equal "Application URL does not exist", last_response.body
+  end
+
+
 end
