@@ -11,7 +11,16 @@ class PayloadRequest < ActiveRecord::Base
             :ip_address_id,
              presence: true
 
-
+  validates :requested_at, uniqueness:
+            {scope: [:url_id,
+                    :responded_in,
+                    :reference_id,
+                    :request_type_id,
+                    :parameters,
+                    :event_name_id,
+                    :software_agent_id,
+                    :resolution_id,
+                    :ip_address_id]}
 
   belongs_to :url
   belongs_to :reference

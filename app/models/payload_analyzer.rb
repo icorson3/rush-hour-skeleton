@@ -4,10 +4,20 @@ class PayloadAnalyzer
 
   def initialize(payload, client_id)
     @client_id = client_id
-    @payload = JSON.parse(payload)
-    populate_payload_requests
+    @p = payload
     @status = 200
     @body = "Payload requested successfully"
+    check_if_payload_parameter_was_sent
+  end
+
+  def check_if_payload_parameter_was_sent
+    if @p.nil?
+      @status = 400
+      @body = "Please send payload parameters with request."
+    else
+      @payload = JSON.parse(@p)
+      populate_payload_requests
+    end
   end
 
   def populate_urls
