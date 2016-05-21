@@ -1,12 +1,23 @@
 class PayloadAnalyzer
-  attr_reader :payload, :client_id
+  attr_reader :client_id
+  attr_accessor :payload, :status, :body
 
   def initialize(payload, client_id)
     @client_id = client_id
-    @payload = JSON.parse(payload)
-    populate_payload_requests
+    @payload = payload
+    check_if_payload_parameter_was_sent
     @status = 200
     @body = "Payload requested successfully"
+  end
+
+  def check_if_payload_parameter_was_sent
+    if !payload.nil?
+      @payload = JSON.parse(payload)
+      populate_payload_requests
+    else
+      status = 400
+      body = "Please send payload parameters with request."
+    end
   end
 
   def populate_urls
