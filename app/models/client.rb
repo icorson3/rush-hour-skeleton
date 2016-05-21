@@ -21,7 +21,7 @@ class Client < ActiveRecord::Base
     PayloadRequest.minimum_response_time
   end
 
-  def frequent_request_types
+  def frequent_request_type
     RequestType.most_frequent_request_verbs
   end
 

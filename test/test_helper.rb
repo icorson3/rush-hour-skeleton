@@ -9,8 +9,9 @@ require 'minitest/emoji'
 require 'capybara/dsl'
 require 'database_cleaner'
 require 'rack/test'
+require 'tilt/erb'
 
-Capybara.app = RushHour::Server
+Capybara.app = RushHourApp
 
 DatabaseCleaner.strategy = :truncation, {except: %w([public.schema.migrations])}
 
@@ -73,7 +74,6 @@ module TestHelpers
     payloads
   end
 
-
   def create_payloads_with_same_user_agent_for_url(num, os, browser)
     payloads = []
     num.times do |i|
@@ -90,8 +90,12 @@ module TestHelpers
         "resolutionHeight":"1280",
         "ip":"'"63.29.38.21#{i}"'"
       }'
-
     end
     payloads
   end
+end
+
+class FeatureTest < Minitest::Test
+  include Capybara::DSL
+  include TestHelpers
 end
