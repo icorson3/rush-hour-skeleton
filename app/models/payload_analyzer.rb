@@ -64,23 +64,23 @@ class PayloadAnalyzer
     ip_address_id: populate_ip_addresses.id,
     client_id: client_id
    })
-   pr.save
+   payload_status(pr)
  end
 
- def payload_status
-   if !populate_payload_requests
-     if error_messages.include?("has already been taken")
+ def payload_status(pr)
+   if !pr.save
+     if error_messages(pr).include?("has already been taken")
        @status = 403
-       @body = error_messages
+       @body = "Payload Request must be unique."
      else
        @status = 400
-       @body = error_messages
+       @body = error_messages(pr)
      end
    end
  end
 
- def error_messages
-   populate_payload_requests.errors.full_messages.join(", ")
+ def error_messages(pr)
+   pr.errors.full_messages.join(", ")
  end
 
 end

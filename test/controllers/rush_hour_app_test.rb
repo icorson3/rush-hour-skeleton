@@ -69,7 +69,6 @@ class RushHourAppTest < Minitest::Test
   end
 
   def test_it_sends_error_if_the_payload_request_has_already_been_received
-    skip
     raw_payload =
     'payload={
       "url":"http://jumpstartlab.com/blog",
@@ -86,7 +85,7 @@ class RushHourAppTest < Minitest::Test
 
     2.times {post '/sources/jumpstartlab/data', raw_payload}
     assert_equal 403, last_response.status
-    assert_equal "Payload already exists", last_response.body
+    assert_equal "Payload Request must be unique.", last_response.body
   end
 
   def test_it_cant_accept_payload_from_an_unregistered_client
