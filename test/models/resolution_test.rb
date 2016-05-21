@@ -78,11 +78,15 @@ class ResolutionTest < Minitest::Test
     }'
 
     payloads = [p1, p2, p3]
-    payloads.each {|payload| PayloadAnalyzer.new(payload)}
+
+    Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
+    payloads.each {|payload| PayloadAnalyzer.new(payload, [1])}
+
     r1 = ["1920", "1280"]
     r2 =[ "192", "128"]
     r3 = ["19", "12"]
     r = [r1, r2, r3]
+
     assert_equal r, Resolution.all_widths_by_heights
   end
 end

@@ -119,7 +119,7 @@ class EventNameTest < Minitest::Test
       "ip":"'"63.29.38.21#{3}"'"
     }'
     arguments = [p1, p2, p3, p4, p5, p6]
-    c = Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
+    Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
     arguments.each {|payload| PayloadAnalyzer.new(payload, [1])}
     en1 = "login"
     en2 = "search"
