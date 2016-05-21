@@ -4,8 +4,7 @@ class UrlTest < Minitest::Test
 include TestHelpers
 
   def test_it_has_relationship_with_payload_request
-    url = Url.new
-    assert_respond_to(url, :payload_requests)
+    assert_respond_to(Url.new, :payload_requests)
   end
 
   def test_validations_work
@@ -81,7 +80,7 @@ include TestHelpers
       "url":"'"http://jumpstartlab.com/"'",
       "requestedAt":"'"#{Time.now}"'",
       "respondedIn":'"#{1 * 10}"',
-      "referredBy":"'"http://jumpstartlab.com/#{1}"'",
+      "referredBy":"'"http://jumpstartlab.com/#{3}"'",
       "requestType":"GET",
       "parameters": [],
       "eventName":"'"socialLogin#{1}"'",
@@ -123,7 +122,6 @@ include TestHelpers
 
     Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
     payloads.each {|payload| PayloadAnalyzer.new(payload, 1)}
-
     url1 = "http://jumpstartlab.com/"
     url2 = "http://facebook.com/"
     url3 = "http://google.com/"
