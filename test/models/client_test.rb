@@ -37,4 +37,40 @@ class ClientTest < Minitest::Test
     c = Client.create
     assert c.invalid?
   end
+
+  def test_it_can_find_average_response_time_for_its_payloads
+    
+  end
+
+  def test_it_can_find_the_maximum_response_time_for_its_payloads
+
+  end
+
+  def test_it_can_find_min_response_time_for_its_payloads
+
+  end
+
+  def test_it_can_find_its_most_frequently_resquested_class_verbs
+
+  end
+
+  def test_it_can_find_all_verbs_for_its_payloads
+
+  end
+
+  def test_it_can_find_its_most_popular_urls
+
+  end
+
+  def test_it_can_find_all_browsers
+
+  end
+
+  def test_it_can_find_all_operating_systems
+
+  end
+
+  def test_it_can_find_all_screen_resolutions
+
+  end
 end
