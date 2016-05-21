@@ -118,12 +118,17 @@ include TestHelpers
       "resolutionHeight":"1280",
       "ip":"'"63.29.38.21#{3}"'"
     }'
+
     payloads = [p6, p2, p4, p1, p3, p5]
-    payloads.each {|payload| PayloadAnalyzer.new(payload)}
+
+    Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
+    payloads.each {|payload| PayloadAnalyzer.new(payload, [1])}
+
     url1 = "http://jumpstartlab.com/"
     url2 = "http://facebook.com/"
     url3 = "http://google.com/"
     urls = [url1, url2, url3]
+
     assert_equal urls, Url.most_to_least_requested_urls
   end
 
@@ -153,8 +158,11 @@ include TestHelpers
       "resolutionWidth":"1920",
       "resolutionHeight":"1280",
       "ip":"'"63.29.38.21#{3}"'"
-    }'
-    [p1, p2].each {|payload| PayloadAnalyzer.new(payload)}
+      }'
+
+    Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
+    [p1, p2].each {|payload| PayloadAnalyzer.new(payload, [1])}
+
     assert_equal 30, Url.find(1).max_response_time
   end
 
@@ -185,7 +193,10 @@ include TestHelpers
       "resolutionHeight":"1280",
       "ip":"'"63.29.38.21#{3}"'"
     }'
-    [p1, p2].each {|payload| PayloadAnalyzer.new(payload)}
+
+    Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
+    [p1, p2].each {|payload| PayloadAnalyzer.new(payload, [1])}
+
     assert_equal 20, Url.find(1).min_response_time
   end
 
@@ -229,7 +240,10 @@ include TestHelpers
       "resolutionHeight":"1280",
       "ip":"'"63.29.38.21#{3}"'"
     }'
-    [p1, p2, p3].each {|payload| PayloadAnalyzer.new(payload)}
+
+    Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
+    [p1, p2, p3].each {|payload| PayloadAnalyzer.new(payload, [1])}
+
     assert_equal [30, 20, 5], Url.find(1).all_response_times
   end
 
@@ -261,7 +275,9 @@ include TestHelpers
       "ip":"'"63.29.38.21#{3}"'"
     }'
 
-    [p1, p2].each {|payload| PayloadAnalyzer.new(payload)}
+    Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
+    [p1, p2].each {|payload| PayloadAnalyzer.new(payload, [1])}
+
     assert_equal 25, Url.find(1).average_response_time
   end
 
@@ -294,7 +310,9 @@ include TestHelpers
         "ip":"'"63.29.38.21#{3}"'"
       }'
 
-      [p1, p2].each {|payload| PayloadAnalyzer.new(payload)}
+      Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
+      [p1, p2].each {|payload| PayloadAnalyzer.new(payload, [1])}
+
       assert_equal ["GET", "POST"], Url.find(1).all_http_verbs
   end
 
@@ -303,8 +321,11 @@ include TestHelpers
     p4 = create_payloads_with_same_references_for_url(4, "http://google.com")
     p1 = create_payloads_with_same_references_for_url(1, "http://instagram.com")
     p3 = create_payloads_with_same_references_for_url(3, "http://facebook.com")
-    [p1, p2, p3, p4].flatten.each {|payload| PayloadAnalyzer.new(payload)}
-      assert_equal ["http://google.com",
+
+    Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
+    [p1, p2, p3, p4].flatten.each {|payload| PayloadAnalyzer.new(payload, [1])}
+
+    assert_equal ["http://google.com",
                     "http://facebook.com",
                     "http://twitter.com"], Url.find(1).top_three_referrers
   end
@@ -314,8 +335,11 @@ include TestHelpers
     p3 = create_payloads_with_same_user_agent_for_url(3, "Mac OS X 10_4_1", "Safari")
     p2 = create_payloads_with_same_user_agent_for_url(2, "Mac OS X 9_8_2", "Safari")
     p1 = create_payloads_with_same_user_agent_for_url(1, "Mac OS X 10_4_1", "Chrome")
-    [p1, p2, p3, p4].flatten.each {|payload| PayloadAnalyzer.new(payload)}
-      assert_equal ["OS X 10.8.2, Chrome",
+
+    Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
+    [p1, p2, p3, p4].flatten.each {|payload| PayloadAnalyzer.new(payload, [1])}
+
+    assert_equal ["OS X 10.8.2, Chrome",
                     "OS X 10.4.1, Safari",
                     "OS X 9.8.2, Safari"], Url.find(1).top_three_user_agents
   end

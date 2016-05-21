@@ -64,7 +64,9 @@ class SoftwareAgentTest < Minitest::Test
       "ip":"'"63.29.38.21#{2}"'"
     }'
 
-    [p1,p2].each {|payload| PayloadAnalyzer.new(payload)}
+    Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
+    [p1,p2].each {|payload| PayloadAnalyzer.new(payload, [1])}
+
     assert_equal ["Chrome", "Safari"], SoftwareAgent.all_browsers
   end
 
@@ -97,7 +99,9 @@ class SoftwareAgentTest < Minitest::Test
       "ip":"'"63.29.38.21#{2}"'"
     }'
 
-    [p1,p2].each {|payload| PayloadAnalyzer.new(payload)}
+    Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
+    [p1,p2].each {|payload| PayloadAnalyzer.new(payload, [1])}
+
     assert_equal ["OS X 10.8.2", "OS X 10.4.1"], SoftwareAgent.all_os
   end
 end
