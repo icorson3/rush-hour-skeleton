@@ -1,0 +1,15 @@
+<h1>Welcome to your dashboard, <%= @client_identifier %> </h1>
+
+<h2>Data Across All Requests</h2>
+<p>Average Response Time: <%= @average_response %> </p>
+<p>Maximum Response Time: <%= @max_response %> </p>
+<p>Minimum Response Time: <%= @min_response %> </p>
+<p>Most Frequent Request Type: <%= @request_type %> </p>
+<p>All HTTP Verbs Used: <%= @all_verbs %> </p>
+<p>URLs from Most to Least Requested: <%= @urls_ordered %> </p>
+
+<h2>User Machine Information</h2>
+<h3>Breakdown Across All Requests</h3>
+<p>Web Browswers: <%= @browsers %> </p>
+<p>Operating Systems: <%= @operating_systems %> </p>
+<p>Screen Resolutions: <%= @resolutions %> </p>
