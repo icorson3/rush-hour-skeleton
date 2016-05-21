@@ -6,24 +6,26 @@ class PayloadRequestTest < Minitest::Test
     @payload = PayloadRequest.new
   end
 
-  # def test_full_payload_request_is_valid
-  #   payload = PayloadRequest.create({
-  #     "url"=> "http://jumpstartlab.com/blog",
-  #     "requested_at" => "2013-02-16 21:38:28 -0700",
-  #     "responded_in"=>37,
-  #     "reference"=>"http://jumpstartlab.com",
-  #     "request_type"=>"GET",
-  #     "parameters"=>[],
-  #     "event_name"=> "socialLogin",
-  #     "user_agent"=>"Mozilla/5.0 ",
-  #     "resolution_width"=>"1920",
-  #     "resolution_height"=>"1280",
-  #     "ip"=>"63.29.38.211"
-  #   })
-  #
-  #   assert payload.valid?
-  # end
-  #
+  def test_full_payload_request_is_valid
+    skip
+    payload = PayloadRequest.create({
+         "url" => "http://jumpstartlab.com/blog",
+         "requestedAt" => "2013-02-16 21:38:28 -0700",
+         "respondedIn" => 37,
+         "referredBy" => "http://jumpstartlab.com",
+         "requestType" => "GET",
+         "parameters" => [],
+         "eventName" =>  "socialLogin",
+         "userAgent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
+         "resolutionWidth" => "1920",
+         "resolutionHeight" => "1280",
+         "ip" => "63.29.38.211",
+         "client_id" => "2"
+        })
+
+    assert payload.valid?
+  end
+
   # def test_missing_line_payload_request_is_invalid
   #   payload = PayloadRequest.create({
   #     "url"=> "http://jumpstartlab.com/blog",
@@ -109,7 +111,7 @@ class PayloadRequestTest < Minitest::Test
     payloads = create_payloads(3)
 
     Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
-    payloads.each {|payload| PayloadAnalyzer.new(payload, [1])}
+    payloads.each {|payload| PayloadAnalyzer.new(payload, 1)}
 
     assert_equal 10, PayloadRequest.average_response_time
   end
@@ -118,7 +120,7 @@ class PayloadRequestTest < Minitest::Test
     payloads = create_payloads(3)
 
     Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
-    payloads.each {|payload| PayloadAnalyzer.new(payload, [1])}
+    payloads.each {|payload| PayloadAnalyzer.new(payload, 1)}
 
     assert_equal 20, PayloadRequest.maximum_response_time
   end
@@ -127,7 +129,7 @@ class PayloadRequestTest < Minitest::Test
     payloads = create_payloads(3)
 
     Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
-    payloads.each {|payload| PayloadAnalyzer.new(payload, [1])}
+    payloads.each {|payload| PayloadAnalyzer.new(payload, 1)}
 
     assert_equal 0, PayloadRequest.minimum_response_time
   end

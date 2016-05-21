@@ -40,7 +40,6 @@ class RushHourAppTest < Minitest::Test
   end
 
   def test_it_can_send_a_unique_payload_request
-    skip
     raw_payload =
     'payload={
       "url":"http://jumpstartlab.com/blog",
