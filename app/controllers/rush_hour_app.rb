@@ -18,4 +18,22 @@ class RushHourApp < Sinatra::Base
       body payload.body
     end
   end
+
+  get '/sources/:identifier' do |identifier|
+    client = Client.where(identifier: identifier)
+    if client.empty?
+      status 403
+      body "The Client with identifier '#{identifier}' doesn't exist"
+    else
+      requests = PayloadRequest.where(client_id: client[0].id)
+      if requests.empty?
+        status 403
+        body "No data has been provided for this client"
+      else
+        @average_response =
+        erb :index
+        body "Success"
+      end
+    end
+  end
 end

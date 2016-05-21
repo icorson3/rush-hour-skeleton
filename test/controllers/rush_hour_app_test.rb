@@ -107,11 +107,45 @@ class RushHourAppTest < Minitest::Test
   end
 
   def test_it_works_if_client_and_client_data_both_exist
+    assert_equal 0, Client.count
+    assert_equal 0, PayloadRequest.count
+
+    payloads = create_payloads(3)
+
+    Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
+    assert_equal 1, Client.count
+
+    payloads.each {|payload| PayloadAnalyzer.new(payload, 1)}
+    assert_equal 3, PayloadRequest.count
+
+    get '/sources/jumpstartlab'
+    assert_equal 200, last_response.status
+    assert_equal "Success", last_response.body
   end
 
   def test_it_will_return_error_if_client_does_not_exist
+    assert_equal 0, Client.count
+    assert_equal 0, PayloadRequest.count
+
+    payloads = create_payloads(3)
+
+    payloads.each {|payload| PayloadAnalyzer.new(payload, 1)}
+    assert_equal 3, PayloadRequest.count
+
+    get '/sources/jumpstartlab'
+    assert_equal 403, last_response.status
+    assert_equal "The Client with identifier 'jumpstartlab' doesn't exist", last_response.body
   end
 
-  def test_it_will_return_error_if_client_does_not_exist
+  def test_it_will_return_error_if_client_data_does_not_exist
+    assert_equal 0, Client.count
+    assert_equal 0, PayloadRequest.count
+
+    Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
+    assert_equal 1, Client.count
+
+    get '/sources/jumpstartlab'
+    assert_equal 403, last_response.status
+    assert_equal "No data has been provided for this client", last_response.body
   end
 end
