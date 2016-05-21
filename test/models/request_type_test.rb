@@ -35,8 +35,12 @@ class RequestTypeTest < Minitest::Test
 
   def test_all_verbs
     payloads = create_payloads(1)
-    payloads.each {|payload| PayloadParser.new(payload)}
+
+    Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
+    payloads.each {|payload| PayloadAnalyzer.new(payload, [1])}
+
     verb = RequestType.find(1).request_type
+
     assert_equal [verb], RequestType.all_verbs
   end
 
@@ -82,8 +86,12 @@ class RequestTypeTest < Minitest::Test
       "resolutionHeight":"1280",
       "ip":"'"63.29.38.21#{3}"'"
     }'
+
     payloads = [p1, p2, p3]
-    payloads.each {|payload| PayloadParser.new(payload)}
+
+    Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
+    payloads.each {|payload| PayloadAnalyzer.new(payload, [1])}
+
     assert_equal "GET", RequestType.most_frequent_request_verbs
   end
 
@@ -116,9 +124,12 @@ class RequestTypeTest < Minitest::Test
           "resolutionHeight":"1280",
           "ip":"'"63.29.38.21#{3}"'"
         }'
-    payloads = [p1, p2]
-    payloads.each {|payload| PayloadParser.new(payload)}
-    assert_equal "GET", RequestType.most_frequent_request_verbs
 
+    payloads = [p1, p2]
+
+    Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
+    payloads.each {|payload| PayloadAnalyzer.new(payload, [1])}
+
+    assert_equal "GET", RequestType.most_frequent_request_verbs
   end
 end

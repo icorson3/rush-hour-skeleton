@@ -10,7 +10,6 @@ class ClientAnalyzer
   end
 
   def create_or_find_client
-
     cs = Client.new(identifier: identifier, root_url: root_url)
     if !cs.save
       if cs.errors.full_messages.join(", ") == "Identifier has already been taken"
