@@ -3,4 +3,48 @@ class Client < ActiveRecord::Base
   validates :root_url, presence: true
 
   has_many :payload_requests
+  has_many :request_types, through: :payload_requests
+  has_many :urls, through: :payload_requests
+  has_many :software_agents, through: :payload_requests
+  has_many :resolutions, through: :payload_requests
+
+
+  def avg_response_time
+    PayloadRequest.average_response_time
+  end
+
+  def max_response_time
+    PayloadRequest.maximum_response_time
+  end
+
+  def min_response_time
+    PayloadRequest.minimum_response_time
+  end
+
+  def frequent_request_types
+    RequestType.most_frequent_request_verbs
+  end
+
+  def list_of_verbs
+    RequestType.all_verbs
+  end
+
+  def ordered_urls
+    Url.most_to_least_requested_urls
+  end
+
+  def browsers
+    SoftwareAgent.all_browsers
+  end
+
+  def operating_systems
+    SoftwareAgent.all_os
+  end
+
+  def screen_resolutions
+    Resolution.all_widths_by_heights
+  end
+
+
+
 end

@@ -3,6 +3,7 @@ class RequestType < ActiveRecord::Base
 
   has_many :payload_requests
   has_many :urls, through: :payload_requests
+  has_many :clients, through: :payload_requests
 
   def self.all_verbs
     self.pluck(:request_type)
