@@ -106,4 +106,12 @@ class RushHourAppTest < Minitest::Test
     assert_equal "The client jumpstartlab has not been registered with the application.", last_response.body
   end
 
+  def test_it_works_if_client_and_client_data_both_exist
+  end
+
+  def test_it_will_return_error_if_client_does_not_exist
+  end
+
+  def test_it_will_return_error_if_client_does_not_exist
+  end
 end
