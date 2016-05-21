@@ -1,6 +1,6 @@
 class PayloadAnalyzer
-  attr_reader :client_id
-  attr_accessor :payload, :status, :body
+  attr_reader :payload, :client_id
+  attr_accessor :status, :body
 
   def initialize(payload, client_id)
     @client_id = client_id
@@ -58,7 +58,7 @@ class PayloadAnalyzer
   end
 
  def populate_payload_requests
-   pl = PayloadRequest.new({
+   pr = PayloadRequest.new({
     url_id: populate_urls.id,
     requested_at: payload["requestedAt"],
     responded_in: payload["respondedIn"],
@@ -71,7 +71,7 @@ class PayloadAnalyzer
     ip_address_id: populate_ip_addresses.id,
     client_id: client_id
    })
-   pl.save
+   pr.save
  end
 
  def payload_status
