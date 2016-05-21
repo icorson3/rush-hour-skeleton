@@ -23,11 +23,11 @@ class ReferenceTest < Minitest::Test
     assert reference.invalid?
   end
 
-
   def test_no_info_is_invalid
     event = Reference.create
     assert event.invalid?
   end
+
   def test_it_has_relationship_with_payload_request
     r = Reference.new
     assert_respond_to(r, :payload_requests)
