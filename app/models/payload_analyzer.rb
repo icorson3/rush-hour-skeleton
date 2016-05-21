@@ -42,7 +42,8 @@ class PayloadAnalyzer
   end
 
   def populate_resolutions
-    Resolution.where(resolution_width: payload["resolutionWidth"], resolution_height: payload["resolutionHeight"]).first_or_create
+    Resolution.where( resolution_width: payload["resolutionWidth"],
+                      resolution_height: payload["resolutionHeight"]).first_or_create
   end
 
   def populate_ip_addresses
