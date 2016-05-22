@@ -30,17 +30,8 @@ class RushHourApp < Sinatra::Base
         status 403
         body "No data has been provided for this client"
       else
-        @identifier = client[0].identifier
-        @all_urls = client[0].find_all_urls
-        @average_response = client[0].avg_response_time
-        @max_response = client[0].max_response_time
-        @min_response = client[0].min_response_time
-        @request_type = client[0].frequent_request_type
-        @all_verbs = client[0].list_of_verbs
-        @urls_ordered = client[0].ordered_urls
-        @browsers = client[0].browsers
-        @operating_systems = client[0].operating_systems
-        @resolutions = client[0].screen_resolutions
+        @client = client[0]
+        @all_urls = @client.find_all_urls
         erb :index
       end
     end
@@ -49,18 +40,11 @@ class RushHourApp < Sinatra::Base
     get '/sources/:identifier/urls/:relative_path' do |identifier, relative_path|
       @client = Client.where(identifier: identifier)[0]
       @u = @client.find_specific_url(relative_path)
-      @url_id = Url.where(url: @u)[0]
       if @u.nil?
         status 403
         body "The Url with path #{relative_path} doesn't exist"
       else
-        @url_max = @url_id.max_response_time
-        @url_min = @url_id.min_response_time
-        @url_times = @url_id.all_response_times
-        @url_average = @url_id.average_response_time
-        @url_verbs = @url_id.all_http_verbs
-        @url_referrers = @url_id.top_three_referrers
-        @url_agents = @url_id.top_three_user_agents
+        @url_id = Url.where(url: @u)[0]
         erb :show
       end
     end
@@ -70,5 +54,9 @@ class RushHourApp < Sinatra::Base
       @hours = client.find_payloads_by_event_name(event_name)
       @event_name = event_name
       erb :events
+    end
+
+    not_found do
+      erb :error
     end
 end

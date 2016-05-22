@@ -3,8 +3,9 @@ require_relative "../test_helper"
 class UserSeesListOfTheirURLsOnDeshboardTest < FeatureTest
   include TestHelpers
 
-  def setup
+  def test_user_sees_and_can_click_links
     Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
+
     p1 = '{
         "url":"http://jumpstartlab.com/good",
         "requestedAt":"'"#{Time.now}"'",
@@ -32,19 +33,21 @@ class UserSeesListOfTheirURLsOnDeshboardTest < FeatureTest
         "resolutionHeight":"1280",
         "ip":"63.29.38.211"
         }'
-    payloads = [p1, p2]
-    payloads.each {|payload| PayloadAnalyzer.new(payload, 1)}
-  end
 
-  def test_user_sees_and_can_click_links
+    payloads = [p1, p2]
+
+    payloads.each {|payload| PayloadAnalyzer.new(payload, 1)}
+
     assert_equal 1, Client.count
     assert_equal 2, PayloadRequest.count
+
     visit 'sources/jumpstartlab'
+
     assert page.has_content?("http://jumpstartlab.com/good")
     assert page.has_content?("http://jumpstartlab.com/party")
 
     click_link "http://jumpstartlab.com/good"
+
     assert_equal '/sources/jumpstartlab/urls/good', current_path
   end
-
 end

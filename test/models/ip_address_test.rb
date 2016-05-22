@@ -23,7 +23,6 @@ class IpAddressTest < Minitest::Test
     assert ip.invalid?
   end
 
-
   def test_no_info_is_invalid
     ip = IpAddress.create
     assert ip.invalid?

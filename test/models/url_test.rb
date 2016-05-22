@@ -122,6 +122,7 @@ include TestHelpers
 
     Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
     payloads.each {|payload| PayloadAnalyzer.new(payload, 1)}
+
     url1 = "http://jumpstartlab.com/"
     url2 = "http://facebook.com/"
     url3 = "http://google.com/"
@@ -159,6 +160,7 @@ include TestHelpers
       }'
 
     Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
+
     [p1, p2].each {|payload| PayloadAnalyzer.new(payload, 1)}
 
     assert_equal 30, Url.find(1).max_response_time
@@ -193,6 +195,7 @@ include TestHelpers
     }'
 
     Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
+
     [p1, p2].each {|payload| PayloadAnalyzer.new(payload, 1)}
 
     assert_equal 20, Url.find(1).min_response_time
@@ -240,6 +243,7 @@ include TestHelpers
     }'
 
     Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
+
     [p1, p2, p3].each {|payload| PayloadAnalyzer.new(payload, 1)}
 
     assert_equal "30, 20, 5", Url.find(1).all_response_times
@@ -274,6 +278,7 @@ include TestHelpers
     }'
 
     Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
+
     [p1, p2].each {|payload| PayloadAnalyzer.new(payload, 1)}
 
     assert_equal 25, Url.find(1).average_response_time
@@ -309,6 +314,7 @@ include TestHelpers
       }'
 
       Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
+
       [p1, p2].each {|payload| PayloadAnalyzer.new(payload, 1)}
 
       assert_equal "GET, POST", Url.find(1).all_http_verbs
@@ -335,10 +341,11 @@ include TestHelpers
     p1 = create_payloads_with_same_user_agent_for_url(1, "Mac OS X 10_4_1", "Chrome")
 
     Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
+
     [p1, p2, p3, p4].flatten.each {|payload| PayloadAnalyzer.new(payload, 1)}
 
     agents_list = "OS X 10.8.2, Chrome, OS X 10.4.1, Safari, OS X 9.8.2, Safari"
+
     assert_equal agents_list, Url.find(1).top_three_user_agents
   end
-
 end

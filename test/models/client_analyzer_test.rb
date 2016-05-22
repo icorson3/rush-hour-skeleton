@@ -23,7 +23,7 @@ class ClientAnalyzerTest < Minitest::Test
   def test_if_client_wasnt_created_will_throw_errors
     ca = ClientAnalyzer.new("", "http://jumpstartlab.com")
     ca.create_or_find_client
-    
+
     assert_equal 400, ca.status
     assert_equal "Identifier can't be blank", ca.body
   end
@@ -37,7 +37,4 @@ class ClientAnalyzerTest < Minitest::Test
     assert_equal 403, cl.status
     assert_equal "The client with identifier 'jumpstartlab' already exists.", cl.body
   end
-
-
-
 end
