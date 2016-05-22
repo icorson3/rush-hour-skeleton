@@ -245,7 +245,7 @@ include TestHelpers
     assert_equal "30, 20, 5", Url.find(1).all_response_times
   end
 
-  def test_all_response_times_for_specific_url
+  def test_average_response_times_for_specific_url
     p1 =  '{
       "url":"http://facebook.com/",
       "requestedAt":"'"#{Time.now}"'",
