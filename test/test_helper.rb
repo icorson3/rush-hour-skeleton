@@ -93,6 +93,26 @@ module TestHelpers
     end
     payloads
   end
+
+  def create_payloads_with_same_url(num)
+    payloads = []
+    num.times do |i|
+      payloads << '{
+        "url":"http://jumpstartlab.com/blog",
+        "requestedAt":"'"#{Time.now}"'",
+        "respondedIn":'"#{i * 10}"',
+        "referredBy":"'"http://google.com"'",
+        "requestType":"'"#{["GET", "PUT", "POST"].sample}"'",
+        "parameters": [],
+        "eventName":"'"socialLogin#{i}"'",
+        "userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
+        "resolutionWidth":"1920",
+        "resolutionHeight":"1280",
+        "ip":"'"63.29.38.21#{i}"'"
+      }'
+    end
+    payloads
+  end
 end
 
 class FeatureTest < Minitest::Test
