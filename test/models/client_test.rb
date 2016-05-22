@@ -351,6 +351,7 @@ class ClientTest < Minitest::Test
     assert client.find_specific_url("party").nil?
   end
 
+
   def test_it_can_find_all_urls_for_a_given_client
     p1 = '{
         "url":"http://jumpstartlab.com/good",
@@ -398,11 +399,10 @@ class ClientTest < Minitest::Test
     client = Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
     payloads.each {|payload| PayloadAnalyzer.new(payload, 1)}
     urls = [
-            "http://jumpstartlab.com/good",
-            "http://jumpstartlab.com/party",
-            "http://jumpstartlab.com/awesome"
-           ]
+      "http://jumpstartlab.com/good",
+      "http://jumpstartlab.com/party",
+      "http://jumpstartlab.com/awesome"
+    ]
     assert_equal urls, client.find_all_urls
   end
-
 end
