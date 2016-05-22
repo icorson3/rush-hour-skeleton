@@ -45,6 +45,4 @@ class Client < ActiveRecord::Base
     Resolution.all_widths_by_heights.join(", ")
   end
 
-
-
 end
