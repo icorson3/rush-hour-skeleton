@@ -9,20 +9,20 @@ class Client < ActiveRecord::Base
   has_many :resolutions, through: :payload_requests
 
 
-  def requests_for_client
-    PayloadRequest.where(client_id: id)
-  end
+  # def requests_for_client
+  #   PayloadRequest.where(client_id: id)
+  # end
 
   def avg_response_time
-    requests_for_client.average_response_time.to_f.round(1)
+    payload_requests.average_response_time.to_f.round(1)
   end
 
   def max_response_time
-    requests_for_client.maximum_response_time
+    payload_requests.maximum_response_time
   end
 
   def min_response_time
-    requests_for_client.minimum_response_time
+    payload_requests.minimum_response_time
   end
 
   def frequent_request_type
@@ -34,7 +34,7 @@ class Client < ActiveRecord::Base
   end
 
   def ordered_urls
-    urls.most_to_least_requested_urls.uniq.join(", ")
+    urls.group(:url).order('count_all DESC').count.keys.join(", ")
   end
 
   def browsers
