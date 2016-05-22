@@ -6,6 +6,6 @@ class Resolution < ActiveRecord::Base
   has_many :clients, through: :payload_requests
 
   def self.all_widths_by_heights
-    self.pluck(:resolution_width, :resolution_height)
+    self.pluck(:resolution_width, :resolution_height).map {|pair| pair.join("x")}
   end
 end
