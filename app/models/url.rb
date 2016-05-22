@@ -8,8 +8,7 @@ class Url < ActiveRecord::Base
   has_many :clients, through: :payload_requests
 
   def self.most_to_least_requested_urls
-    ids = PayloadRequest.group(:url_id).count.sort_by {|k,v| v}.reverse
-    ids.map {|id| Url.find(id[0]).url}
+    group(:url).order('count_all DESC').count.keys
   end
 
   def max_response_time
