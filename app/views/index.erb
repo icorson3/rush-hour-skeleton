@@ -13,3 +13,9 @@
 <p>Web Browswers: <%= @browsers %> </p>
 <p>Operating Systems: <%= @operating_systems %> </p>
 <p>Screen Resolutions: <%= @resolutions %> </p>
+
+<h2>Your URLs</h2>
+<h3>Click for individual URL statistics</h3>
+<% @all_urls.each do |url| %>
+<a href="/sources/<%= @identifier %>/urls/<%= url.split("/").last%>"> <%= url %> </a> <br>
+<% end %>
