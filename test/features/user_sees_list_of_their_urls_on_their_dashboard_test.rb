@@ -3,8 +3,9 @@ require_relative "../test_helper"
 class UserSeesListOfTheirURLsOnDeshboardTest < FeatureTest
   include TestHelpers
 
-  def setup
+  def test_user_sees_and_can_click_links
     Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
+
     p1 = '{
         "url":"http://jumpstartlab.com/good",
         "requestedAt":"'"#{Time.now}"'",
@@ -34,9 +35,7 @@ class UserSeesListOfTheirURLsOnDeshboardTest < FeatureTest
         }'
     payloads = [p1, p2]
     payloads.each {|payload| PayloadAnalyzer.new(payload, 1)}
-  end
 
-  def test_user_sees_and_can_click_links
     assert_equal 1, Client.count
     assert_equal 2, PayloadRequest.count
     visit 'sources/jumpstartlab'
