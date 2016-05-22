@@ -10,16 +10,15 @@ class UserCanSeeClientStatisticsForAllRequests < FeatureTest
 
     visit '/sources/jumpstartlab'
 
-    assert page.has_content?("Welcome to your dashboard")
-    assert page.has_content?("Data Across All Requests")
+    assert page.has_content?("Welcome to your Dashboard")
+    assert page.has_content?("Requests & Responses")
     assert page.has_content?("Average Response Time:")
     assert page.has_content?("Maximum Response Time:")
     assert page.has_content?("Minimum Response Time:")
     assert page.has_content?("Most Frequent Request Type:")
     assert page.has_content?("All HTTP Verbs Used:")
     assert page.has_content?("URLs from Most to Least Requested:")
-    assert page.has_content?("User Machine Information")
-    assert page.has_content?("Breakdown Across All Requests")
+    assert page.has_content?("Machine Information")
     assert page.has_content?("Web Browswers:")
     assert page.has_content?("Operating Systems:")
     assert page.has_content?("Screen Resolutions:")

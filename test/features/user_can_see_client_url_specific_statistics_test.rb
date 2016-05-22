@@ -10,13 +10,13 @@ class UserCanSeeClientUrlSpecificStatistics < FeatureTest
 
     visit '/sources/jumpstartlab/urls/blog'
 
-    assert page.has_content?("Statistics for URL")
-    assert page.has_content?("Response Time Data")
+    assert page.has_content?("Statistics for:")
+    assert page.has_content?("Response Data")
     assert page.has_content?("Maximum:")
     assert page.has_content?("Minimum:")
     assert page.has_content?("All Times:")
     assert page.has_content?("Average:")
-    assert page.has_content?("Other Data")
+    assert page.has_content?("Other:")
     assert page.has_content?("Associated HTTP Verbs:")
     assert page.has_content?("Most Popular Referrers:")
     assert page.has_content?("Top User Agents:")

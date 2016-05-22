@@ -23,7 +23,7 @@
   <div class="col-md-4">
     <h2>Your URLs</h2>
     <% @all_urls.each do |url| %>
-    <a href="/sources/<%= @identifier %>/urls/<%= url.split("/").last%>"> <%= url %> </a> <br>
+    <a href="/sources/<%= @client.identifier %>/urls/<%= url.split("/").last%>"> <%= url %> </a> <br>
     <% end %>
   </div>
 </div>
