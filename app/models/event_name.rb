@@ -4,10 +4,6 @@ class EventName < ActiveRecord::Base
   has_many :payload_requests
   has_many :clients, through: :payload_requests
 
-  def self.all_event_names
-    self.pluck(:event_name)
-  end
-
   def self.most_to_least_requested_event_names
     ids = PayloadRequest.group(:event_name_id).count.sort_by {|k,v,| v}.reverse
     ids.map {|id| EventName.find(id[0]).event_name }

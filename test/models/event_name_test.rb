@@ -128,11 +128,4 @@ class EventNameTest < Minitest::Test
     assert_equal en, EventName.most_to_least_requested_event_names
   end
 
-  def test_can_find_all_event_names
-    payloads = create_payloads(2)
-    Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
-    payloads.each {|payload| PayloadAnalyzer.new(payload, 1)}
-
-    assert_equal ["socialLogin0", "socialLogin1"], EventName.all_event_names
-  end
 end
