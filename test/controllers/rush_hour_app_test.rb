@@ -149,7 +149,25 @@ class RushHourAppTest < Minitest::Test
     assert_equal "No data has been provided for this client", last_response.body
   end
 
-  def test_it_will_return_successfully_if_url_and_client_exist
+  def test_it_successfully_shows_url_page_when_data_exists
+    Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
+    payload = '{
+        "url":"http://jumpstartlab.com/good",
+        "requestedAt":"'"#{Time.now}"'",
+        "respondedIn":"10",
+        "referredBy":"http://jumpstartlab.com/",
+        "requestType":"GET",
+        "parameters": [],
+        "eventName":"socialLogin",
+        "userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
+        "resolutionWidth":"1920",
+        "resolutionHeight":"1280",
+        "ip":"63.29.38.211"
+        }'
+    PayloadAnalyzer.new(payload, 1)
+    get 'sources/jumpstartlab/urls/good'
+    assert_equal 200, last_response.status
+    assert last_response.body.include?("Statistics for URL")
   end
 
   def test_it_will_return_error_if_client_in_url_does_not_exist

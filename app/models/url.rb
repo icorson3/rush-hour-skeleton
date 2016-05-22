@@ -42,4 +42,6 @@ class Url < ActiveRecord::Base
       "#{k.os}, #{k.browser}"
     end
   end
+
+
 end
