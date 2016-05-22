@@ -7,6 +7,7 @@ class Client < ActiveRecord::Base
   has_many :urls, through: :payload_requests
   has_many :software_agents, through: :payload_requests
   has_many :resolutions, through: :payload_requests
+  has_many :event_names, through: :payload_requests
 
   def avg_response_time
     payload_requests.average_response_time.to_f.round(1)
@@ -51,9 +52,13 @@ class Client < ActiveRecord::Base
     #try with pluck
   end
 
+  def find_payloads_by_event_name(name)
+    e = event_names.where(event_name: name)
+    payloads = payload_requests.where(event_name_id: e[0].id)
+    payload_requests.find_hour_requested_at(payloads)
+  end
+
   def find_all_urls
     urls.all.pluck(:url)
   end
-
-  
 end

@@ -43,4 +43,15 @@ class PayloadRequest < ActiveRecord::Base
   def self.minimum_response_time
     self.minimum(:responded_in)
   end
+
+  def self.find_hour_requested_at(array)
+    hours = array.map { |payload| payload.requested_at.hour }
+    self.formatted_arrays(hours)
+  end
+
+  def self.formatted_arrays(hours)
+    adjusted = Array.new(24, 0)
+    24.times { |i| adjusted[i] = hours.count(i) }
+    adjusted
+  end
 end

@@ -65,4 +65,10 @@ class RushHourApp < Sinatra::Base
       end
     end
 
+    get '/sources/:identifier/events/:event_name' do |identifier, event_name|
+      client = Client.where(identifier: identifier)[0]
+      @hours = client.find_payloads_by_event_name(event_name)
+      @event_name = event_name
+      erb :events
+    end
 end
