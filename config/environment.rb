@@ -16,11 +16,9 @@ Dir[APP_ROOT.join('app', 'models', '*.rb')].each { |file| require file }
 require APP_ROOT.join('config', 'database')
 
 # configure Server settings
-module RushHour
-  class Server < Sinatra::Base
-    set :method_override, true
-    set :root, APP_ROOT.to_path
-    set :views, File.join(RushHour::Server.root, "app", "views")
-    set :public_folder, File.join(RushHour::Server.root, "app", "public")
-  end
+class RushHourApp < Sinatra::Base
+  set :root, APP_ROOT.to_path
+  set :method_override, true
+  set :views, File.join(RushHourApp.root, "app", "views")
+  set :public_folder, File.join(RushHourApp.root, "app", "public")
 end

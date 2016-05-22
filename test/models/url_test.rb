@@ -4,8 +4,7 @@ class UrlTest < Minitest::Test
 include TestHelpers
 
   def test_it_has_relationship_with_payload_request
-    url = Url.new
-    assert_respond_to(url, :payload_requests)
+    assert_respond_to(Url.new, :payload_requests)
   end
 
   def test_validations_work
@@ -81,7 +80,7 @@ include TestHelpers
       "url":"'"http://jumpstartlab.com/"'",
       "requestedAt":"'"#{Time.now}"'",
       "respondedIn":'"#{1 * 10}"',
-      "referredBy":"'"http://jumpstartlab.com/#{1}"'",
+      "referredBy":"'"http://jumpstartlab.com/#{3}"'",
       "requestType":"GET",
       "parameters": [],
       "eventName":"'"socialLogin#{1}"'",
@@ -122,8 +121,7 @@ include TestHelpers
     payloads = [p6, p2, p4, p1, p3, p5]
 
     Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
-    payloads.each {|payload| PayloadAnalyzer.new(payload, [1])}
-
+    payloads.each {|payload| PayloadAnalyzer.new(payload, 1)}
     url1 = "http://jumpstartlab.com/"
     url2 = "http://facebook.com/"
     url3 = "http://google.com/"
@@ -161,7 +159,7 @@ include TestHelpers
       }'
 
     Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
-    [p1, p2].each {|payload| PayloadAnalyzer.new(payload, [1])}
+    [p1, p2].each {|payload| PayloadAnalyzer.new(payload, 1)}
 
     assert_equal 30, Url.find(1).max_response_time
   end
@@ -195,7 +193,7 @@ include TestHelpers
     }'
 
     Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
-    [p1, p2].each {|payload| PayloadAnalyzer.new(payload, [1])}
+    [p1, p2].each {|payload| PayloadAnalyzer.new(payload, 1)}
 
     assert_equal 20, Url.find(1).min_response_time
   end
@@ -242,7 +240,7 @@ include TestHelpers
     }'
 
     Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
-    [p1, p2, p3].each {|payload| PayloadAnalyzer.new(payload, [1])}
+    [p1, p2, p3].each {|payload| PayloadAnalyzer.new(payload, 1)}
 
     assert_equal [30, 20, 5], Url.find(1).all_response_times
   end
@@ -276,7 +274,7 @@ include TestHelpers
     }'
 
     Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
-    [p1, p2].each {|payload| PayloadAnalyzer.new(payload, [1])}
+    [p1, p2].each {|payload| PayloadAnalyzer.new(payload, 1)}
 
     assert_equal 25, Url.find(1).average_response_time
   end
@@ -311,7 +309,7 @@ include TestHelpers
       }'
 
       Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
-      [p1, p2].each {|payload| PayloadAnalyzer.new(payload, [1])}
+      [p1, p2].each {|payload| PayloadAnalyzer.new(payload, 1)}
 
       assert_equal ["GET", "POST"], Url.find(1).all_http_verbs
   end
@@ -323,7 +321,7 @@ include TestHelpers
     p3 = create_payloads_with_same_references_for_url(3, "http://facebook.com")
 
     Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
-    [p1, p2, p3, p4].flatten.each {|payload| PayloadAnalyzer.new(payload, [1])}
+    [p1, p2, p3, p4].flatten.each {|payload| PayloadAnalyzer.new(payload, 1)}
 
     assert_equal ["http://google.com",
                     "http://facebook.com",
@@ -337,7 +335,7 @@ include TestHelpers
     p1 = create_payloads_with_same_user_agent_for_url(1, "Mac OS X 10_4_1", "Chrome")
 
     Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
-    [p1, p2, p3, p4].flatten.each {|payload| PayloadAnalyzer.new(payload, [1])}
+    [p1, p2, p3, p4].flatten.each {|payload| PayloadAnalyzer.new(payload, 1)}
 
     assert_equal ["OS X 10.8.2, Chrome",
                     "OS X 10.4.1, Safari",

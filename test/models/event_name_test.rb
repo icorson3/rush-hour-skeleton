@@ -120,7 +120,7 @@ class EventNameTest < Minitest::Test
     }'
     arguments = [p1, p2, p3, p4, p5, p6]
     Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
-    arguments.each {|payload| PayloadAnalyzer.new(payload, [1])}
+    arguments.each {|payload| PayloadAnalyzer.new(payload, 1)}
     en1 = "login"
     en2 = "search"
     en3 = "socialLogin"

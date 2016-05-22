@@ -107,11 +107,11 @@ class PayloadAnalyzerTest < Minitest::Test
     assert_equal 2, PayloadRequest.count
   end
 
-  def test_cant_populate_tables_if_data_is_incomplete
-    skip
-    bad_payload = 'payload={"ip":"63.29.38.211"}'
+  def test_cant_populate_tables_if_payload_request_missing_information
+    bad_payload = '{"ip":"63.29.38.211"}'
     pa = PayloadAnalyzer.new(bad_payload, 1)
-    refute pa.populate_payload_requests
+    assert_equal 400, pa.status
+    assert pa.body.include?("can't be blank")
   end
 
   def test_it_gives_error_if_the_payload_is_missing
@@ -124,11 +124,12 @@ class PayloadAnalyzerTest < Minitest::Test
     successfull = PayloadAnalyzer.new(@payload, 1)
     assert_equal 1, PayloadRequest.count
     assert_equal 200, successfull.status
-    assert_equal "Payload requested successfully", successfull.body
+    assert_equal "Payload created successfully", successfull.body
 
     unsuccessful = PayloadAnalyzer.new(@payload, 1)
     assert_equal 403, unsuccessful.status
-    assert_equal "", unsuccessful.body
+    assert_equal "Payload Request must be unique.", unsuccessful.body
   end
+
 
 end

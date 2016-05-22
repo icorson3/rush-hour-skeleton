@@ -40,7 +40,6 @@ class RushHourAppTest < Minitest::Test
   end
 
   def test_it_can_send_a_unique_payload_request
-    skip
     raw_payload =
     'payload={
       "url":"http://jumpstartlab.com/blog",
@@ -70,7 +69,6 @@ class RushHourAppTest < Minitest::Test
   end
 
   def test_it_sends_error_if_the_payload_request_has_already_been_received
-    skip
     raw_payload =
     'payload={
       "url":"http://jumpstartlab.com/blog",
@@ -87,7 +85,7 @@ class RushHourAppTest < Minitest::Test
 
     2.times {post '/sources/jumpstartlab/data', raw_payload}
     assert_equal 403, last_response.status
-    assert_equal "Payload already exists", last_response.body
+    assert_equal "Payload Request must be unique.", last_response.body
   end
 
   def test_it_cant_accept_payload_from_an_unregistered_client
@@ -106,6 +104,58 @@ class RushHourAppTest < Minitest::Test
     assert_equal 0, Client.count
     assert_equal 403, last_response.status
     assert_equal "The client jumpstartlab has not been registered with the application.", last_response.body
+  end
+
+  def test_it_works_if_client_and_client_data_both_exist
+    assert_equal 0, Client.count
+    assert_equal 0, PayloadRequest.count
+
+    payloads = create_payloads(3)
+
+    Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
+    assert_equal 1, Client.count
+
+    payloads.each {|payload| PayloadAnalyzer.new(payload, 1)}
+    assert_equal 3, PayloadRequest.count
+
+    get '/sources/jumpstartlab'
+    assert_equal 200, last_response.status
+    assert last_response.body.include?("Data Across All Requests")
+  end
+
+  def test_it_will_return_error_if_client_does_not_exist
+    assert_equal 0, Client.count
+    assert_equal 0, PayloadRequest.count
+
+    payloads = create_payloads(3)
+
+    payloads.each {|payload| PayloadAnalyzer.new(payload, 1)}
+    assert_equal 3, PayloadRequest.count
+
+    get '/sources/jumpstartlab'
+    assert_equal 403, last_response.status
+    assert_equal "The Client with identifier 'jumpstartlab' doesn't exist", last_response.body
+  end
+
+  def test_it_will_return_error_if_client_data_does_not_exist
+    assert_equal 0, Client.count
+    assert_equal 0, PayloadRequest.count
+
+    c = Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
+    assert_equal 1, Client.count
+
+    get '/sources/jumpstartlab'
+    assert_equal 403, last_response.status
+    assert_equal "No data has been provided for this client", last_response.body
+  end
+
+  def test_it_will_return_successfully_if_url_and_client_exist
+  end
+
+  def test_it_will_return_error_if_client_in_url_does_not_exist
+  end
+
+  def test_it_returns_error_if_url_does_not_exist
   end
 
 end

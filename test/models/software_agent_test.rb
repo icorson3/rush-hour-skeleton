@@ -31,8 +31,7 @@ class SoftwareAgentTest < Minitest::Test
 
 
   def test_it_has_relationship_with_payload_request
-    u = SoftwareAgent.new
-    assert_respond_to(u, :payload_requests)
+    assert_respond_to(SoftwareAgent.new, :payload_requests)
   end
 
   def test_it_outputs_all_browsers
