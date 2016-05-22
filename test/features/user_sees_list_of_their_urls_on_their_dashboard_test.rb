@@ -36,13 +36,18 @@ class UserSeesListOfTheirURLsOnDeshboardTest < FeatureTest
     payloads.each {|payload| PayloadAnalyzer.new(payload, 1)}
   end
 
-  def test_user_sees_and_can_click_first_url
+  def test_user_sees_and_can_click_all_links
     visit 'sources/jumpstartlab'
     assert page.has_content?("http://jumpstartlab.com/good")
     assert page.has_content?("http://jumpstartlab.com/party")
 
     click_link "http://jumpstartlab.com/good"
     assert_equal '/sources/jumpstartlab/urls/good', current_path
+
+    visit 'sources/jumpstartlab'
+    save_and_open_page
+    click_link "http://jumpstartlab.com/party"
+    assert_equal '/sources/jumpstartlab/urls/party', current_path
   end
 
   # def test_user_sees_and_can_click_second_url
