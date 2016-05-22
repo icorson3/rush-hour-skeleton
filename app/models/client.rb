@@ -49,4 +49,10 @@ class Client < ActiveRecord::Base
     resolutions.all_widths_by_heights.uniq.join(", ")
   end
 
+  def find_specific_url(relative_path)
+    if !urls.where(url: root_url+"/"+relative_path)[0].nil?
+      urls.where(url: root_url+"/"+relative_path)[0].url
+    end
+  end
+
 end

@@ -17,7 +17,7 @@ class UserCanSeeClientUrlSpecificStatistics < FeatureTest
     assert page.has_content?("All Times:")
     assert page.has_content?("Average:")
     assert page.has_content?("Other Data")
-    assert page.has_content?("Associated HTTP verbs:")
+    assert page.has_content?("Associated HTTP Verbs:")
     assert page.has_content?("Most Popular Referrers:")
     assert page.has_content?("Top User Agents:")
   end
@@ -25,8 +25,9 @@ class UserCanSeeClientUrlSpecificStatistics < FeatureTest
   def test_it_errors_if_no_data_provided
     client = Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
 
+
     visit '/sources/jumpstartlab/urls/blog'
 
-    assert page.has_content? "No data has been provided for this client"
+    assert page.has_content? "The Url with path blog doesn't exist"
   end
 end

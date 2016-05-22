@@ -16,6 +16,11 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.4.0)
     arel (6.0.3)
+    ast (2.2.0)
+    axiom-types (0.1.1)
+      descendants_tracker (~> 0.0.4)
+      ice_nine (~> 0.11.0)
+      thread_safe (~> 0.3, >= 0.3.1)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     bond (0.5.1)
@@ -27,10 +32,18 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    codeclimate-engine-rb (0.3.1)
+      virtus (~> 1.0)
     coderay (1.1.1)
+    coercible (1.0.0)
+      descendants_tracker (~> 0.0.1)
     database_cleaner (1.5.3)
     debug_inspector (0.0.2)
+    descendants_tracker (0.0.4)
+      thread_safe (~> 0.3, >= 0.3.1)
+    equalizer (0.0.11)
     i18n (0.7.0)
+    ice_nine (0.11.2)
     interception (0.5)
     json (1.8.3)
     launchy (2.4.3)
@@ -48,6 +61,8 @@ GEM
       what_weve_got_here_is_an_error_to_communicate (~> 0.0.8)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
+    parser (2.3.0.7)
+      ast (~> 2.2)
     pg (0.18.4)
     pry (0.10.3)
       coderay (~> 1.1.0)
@@ -58,6 +73,11 @@ GEM
       rack
     rack-test (0.6.3)
       rack (>= 1.0)
+    rainbow (2.1.0)
+    reek (4.0.2)
+      codeclimate-engine-rb (~> 0.3.1)
+      parser (~> 2.3, >= 2.3.0.6)
+      rainbow (~> 2.0)
     ripl (0.7.1)
       bond (~> 0.5.1)
     ripl-multi_line (0.3.1)
@@ -90,6 +110,11 @@ GEM
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     useragent (0.16.7)
+    virtus (1.0.5)
+      axiom-types (~> 0.1)
+      coercible (~> 1.0)
+      descendants_tracker (~> 0.0, >= 0.0.3)
+      equalizer (~> 0.0, >= 0.0.9)
     what_weve_got_here_is_an_error_to_communicate (0.0.8)
       binding_of_caller (~> 0.7.2)
       interception (~> 0.5)
@@ -112,6 +137,7 @@ DEPENDENCIES
   pg
   pry
   rack-test
+  reek
   shotgun
   sinatra
   sinatra-activerecord
