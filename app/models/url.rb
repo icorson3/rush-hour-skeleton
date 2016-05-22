@@ -33,7 +33,6 @@ class Url < ActiveRecord::Base
   end
 
   def top_three_referrers
-
     referrers = self.payload_requests.group(:reference).order('count_all desc').limit(3).count
     referrers.map { |k, v| k.reference }
   end
@@ -44,4 +43,6 @@ class Url < ActiveRecord::Base
       "#{k.os}, #{k.browser}"
     end
   end
+
+
 end

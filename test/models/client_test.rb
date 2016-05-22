@@ -307,4 +307,27 @@ class ClientTest < Minitest::Test
     assert_equal "1920x1280, 1366x768", client.screen_resolutions
   end
 
+  def test_it_can_find_a_specific_url_from_relative_path
+    p1 = '{
+        "url":"http://jumpstartlab.com/good",
+        "requestedAt":"'"#{Time.now}"'",
+        "respondedIn":"10",
+        "referredBy":"http://jumpstartlab.com/",
+        "requestType":"GET",
+        "parameters": [],
+        "eventName":"socialLogin",
+        "userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
+        "resolutionWidth":"1920",
+        "resolutionHeight":"1280",
+        "ip":"63.29.38.211"
+        }'
+
+    client = Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
+    PayloadAnalyzer.new(payload, 1)
+
+    url = "http://jumpstartlab.com/good"
+
+    assert_equal url, client.find_specific_url("/good")
+  end
+
 end
