@@ -122,6 +122,7 @@ include TestHelpers
 
     Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
     payloads.each {|payload| PayloadAnalyzer.new(payload, 1)}
+
     url1 = "http://jumpstartlab.com/"
     url2 = "http://facebook.com/"
     url3 = "http://google.com/"
@@ -159,6 +160,7 @@ include TestHelpers
       }'
 
     Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
+
     [p1, p2].each {|payload| PayloadAnalyzer.new(payload, 1)}
 
     assert_equal 30, Url.find(1).max_response_time
@@ -193,6 +195,7 @@ include TestHelpers
     }'
 
     Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
+
     [p1, p2].each {|payload| PayloadAnalyzer.new(payload, 1)}
 
     assert_equal 20, Url.find(1).min_response_time
@@ -240,12 +243,13 @@ include TestHelpers
     }'
 
     Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
+
     [p1, p2, p3].each {|payload| PayloadAnalyzer.new(payload, 1)}
 
-    assert_equal [30, 20, 5], Url.find(1).all_response_times
+    assert_equal "30, 20, 5", Url.find(1).all_response_times
   end
 
-  def test_all_response_times_for_specific_url
+  def test_average_response_times_for_specific_url
     p1 =  '{
       "url":"http://facebook.com/",
       "requestedAt":"'"#{Time.now}"'",
@@ -274,6 +278,7 @@ include TestHelpers
     }'
 
     Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
+
     [p1, p2].each {|payload| PayloadAnalyzer.new(payload, 1)}
 
     assert_equal 25, Url.find(1).average_response_time
@@ -309,9 +314,10 @@ include TestHelpers
       }'
 
       Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
+
       [p1, p2].each {|payload| PayloadAnalyzer.new(payload, 1)}
 
-      assert_equal ["GET", "POST"], Url.find(1).all_http_verbs
+      assert_equal "GET, POST", Url.find(1).all_http_verbs
   end
 
   def test_it_can_give_the_top_three_referers
@@ -323,9 +329,9 @@ include TestHelpers
     Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
     [p1, p2, p3, p4].flatten.each {|payload| PayloadAnalyzer.new(payload, 1)}
 
-    assert_equal ["http://google.com",
-                    "http://facebook.com",
-                    "http://twitter.com"], Url.find(1).top_three_referrers
+    url_list = "http://google.com, http://facebook.com, http://twitter.com"
+
+    assert_equal url_list, Url.find(1).top_three_referrers
   end
 
   def test_it_can_give_the_top_three_user_agents
@@ -335,28 +341,11 @@ include TestHelpers
     p1 = create_payloads_with_same_user_agent_for_url(1, "Mac OS X 10_4_1", "Chrome")
 
     Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
+
     [p1, p2, p3, p4].flatten.each {|payload| PayloadAnalyzer.new(payload, 1)}
 
-    assert_equal ["OS X 10.8.2, Chrome",
-                    "OS X 10.4.1, Safari",
-                    "OS X 9.8.2, Safari"], Url.find(1).top_three_user_agents
-  end
+    agents_list = "OS X 10.8.2, Chrome, OS X 10.4.1, Safari, OS X 9.8.2, Safari"
 
-  # def test_it_can_find_the_relative_path_of_a_url
-  #   payload =  '{
-  #     "url":"http://jumpstartlab.com/blog",
-  #     "requestedAt":"'"#{Time.now}"'",
-  #     "respondedIn":'"#{2 * 10}"',
-  #     "referredBy":"'"http://jumpstartlab.com/#{3}"'",
-  #     "requestType":"POST",
-  #     "parameters": [],
-  #     "eventName":"'"socialLogin#{3}"'",
-  #     "userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
-  #     "resolutionWidth":"1920",
-  #     "resolutionHeight":"1280",
-  #     "ip":"'"63.29.38.21#{3}"'"
-  #   }'
-  #   Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
-  #   PayloadAnalyzer.new({})
-  # end
+    assert_equal agents_list, Url.find(1).top_three_user_agents
+  end
 end

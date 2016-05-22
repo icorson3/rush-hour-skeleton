@@ -69,7 +69,6 @@ module TestHelpers
         "resolutionHeight":"1280",
         "ip":"'"63.29.38.21#{i}"'"
       }'
-
     end
     payloads
   end
