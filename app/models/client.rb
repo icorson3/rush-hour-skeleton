@@ -9,40 +9,50 @@ class Client < ActiveRecord::Base
   has_many :resolutions, through: :payload_requests
 
 
+  # def requests_for_client
+  #   PayloadRequest.where(client_id: id)
+  # end
+
   def avg_response_time
-    PayloadRequest.average_response_time.to_f.round(1)
+    payload_requests.average_response_time.to_f.round(1)
   end
 
   def max_response_time
-    PayloadRequest.maximum_response_time
+    payload_requests.maximum_response_time
   end
 
   def min_response_time
-    PayloadRequest.minimum_response_time
+    payload_requests.minimum_response_time
   end
 
   def frequent_request_type
-    RequestType.most_frequent_request_verbs
+    request_types.most_frequent_request_verbs
   end
 
   def list_of_verbs
-    RequestType.all_verbs.join(", ")
+    request_types.all_verbs.uniq.join(", ")
   end
 
   def ordered_urls
-    Url.most_to_least_requested_urls.join(", ")
+    urls.group(:url).order('count_all DESC').count.keys.join(", ")
   end
 
   def browsers
-    SoftwareAgent.all_browsers.join(", ")
+    software_agents.all_browsers.uniq.join(", ")
   end
 
   def operating_systems
-    SoftwareAgent.all_os.join(", ")
+    software_agents.all_os.uniq.join(", ")
   end
 
   def screen_resolutions
-    Resolution.all_widths_by_heights.join(", ")
+    require "pry"; binding.pry
+    resolutions.all_widths_by_heights.uniq.join(", ")
   end
 
+  def find_specific_url(relative_path)
+    if !urls.where(url: root_url+"/"+relative_path)[0].nil?
+      urls.where(url: root_url+"/"+relative_path)[0].url
+    end
+  end
 end

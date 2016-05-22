@@ -8,8 +8,7 @@ class Url < ActiveRecord::Base
   has_many :clients, through: :payload_requests
 
   def self.most_to_least_requested_urls
-    ids = PayloadRequest.group(:url_id).count.sort_by {|k,v| v}.reverse
-    f = ids.map {|id| Url.find(id[0]).url}
+    group(:url).order('count_all DESC').count.keys
   end
 
   def max_response_time
@@ -33,7 +32,6 @@ class Url < ActiveRecord::Base
   end
 
   def top_three_referrers
-
     referrers = self.payload_requests.group(:reference).order('count_all desc').limit(3).count
     referrers.map { |k, v| k.reference }
   end
@@ -44,4 +42,6 @@ class Url < ActiveRecord::Base
       "#{k.os}, #{k.browser}"
     end
   end
+
+
 end

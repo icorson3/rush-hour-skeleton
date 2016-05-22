@@ -341,4 +341,22 @@ include TestHelpers
                     "OS X 10.4.1, Safari",
                     "OS X 9.8.2, Safari"], Url.find(1).top_three_user_agents
   end
+
+  # def test_it_can_find_the_relative_path_of_a_url
+  #   payload =  '{
+  #     "url":"http://jumpstartlab.com/blog",
+  #     "requestedAt":"'"#{Time.now}"'",
+  #     "respondedIn":'"#{2 * 10}"',
+  #     "referredBy":"'"http://jumpstartlab.com/#{3}"'",
+  #     "requestType":"POST",
+  #     "parameters": [],
+  #     "eventName":"'"socialLogin#{3}"'",
+  #     "userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
+  #     "resolutionWidth":"1920",
+  #     "resolutionHeight":"1280",
+  #     "ip":"'"63.29.38.21#{3}"'"
+  #   }'
+  #   Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
+  #   PayloadAnalyzer.new({})
+  # end
 end

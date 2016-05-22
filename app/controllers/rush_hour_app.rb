@@ -44,4 +44,24 @@ class RushHourApp < Sinatra::Base
       end
     end
   end
+
+    get '/sources/:identifier/urls/:relative_path' do |identifier, relative_path|
+      @client = Client.where(identifier: identifier)[0]
+      @u = @client.find_specific_url(relative_path)
+      @url_id = Url.where(url: @u)[0]
+      if @u.nil?
+        status 403
+        body "The Url with path #{relative_path} doesn't exist"
+      else
+        @url_max = @url_id.max_response_time
+        @url_min = @url_id.min_response_time
+        @url_times = @url_id.all_response_times
+        @url_average = @url_id.average_response_time
+        @url_verbs = @url_id.all_http_verbs
+        @url_referrers = @url_id.top_three_referrers
+        @url_agents = @url_id.top_three_user_agents
+        erb :show
+      end
+    end
+
 end
