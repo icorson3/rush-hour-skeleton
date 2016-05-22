@@ -141,7 +141,7 @@ class RushHourAppTest < Minitest::Test
     assert_equal 0, Client.count
     assert_equal 0, PayloadRequest.count
 
-    Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
+    c = Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
     assert_equal 1, Client.count
 
     get '/sources/jumpstartlab'

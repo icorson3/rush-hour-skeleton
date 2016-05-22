@@ -46,6 +46,7 @@ class Client < ActiveRecord::Base
   end
 
   def screen_resolutions
+    require "pry"; binding.pry
     resolutions.all_widths_by_heights.uniq.join(", ")
   end
 
@@ -54,5 +55,4 @@ class Client < ActiveRecord::Base
       urls.where(url: root_url+"/"+relative_path)[0].url
     end
   end
-
 end
