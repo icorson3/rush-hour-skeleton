@@ -169,5 +169,4 @@ class RushHourAppTest < Minitest::Test
     assert_equal 200, last_response.status
     assert last_response.body.include?("Statistics for:")
   end
-
 end

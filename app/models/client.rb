@@ -49,7 +49,6 @@ class Client < ActiveRecord::Base
     if !urls.where(url: root_url+"/"+relative_path)[0].nil?
       urls.where(url: root_url+"/"+relative_path)[0].url
     end
-    #try with pluck
   end
 
   def find_payloads_by_event_name(name)

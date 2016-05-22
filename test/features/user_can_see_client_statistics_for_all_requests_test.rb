@@ -4,8 +4,8 @@ class UserCanSeeClientStatisticsForAllRequests < FeatureTest
 
   def test_user_sees_all_client_statistics
     client = Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
-
     payloads = create_payloads(3)
+
     payloads.each {|payload| PayloadAnalyzer.new(payload, 1)}
 
     visit '/sources/jumpstartlab'

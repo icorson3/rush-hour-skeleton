@@ -43,44 +43,43 @@ class PayloadAnalyzer
 
   def populate_resolutions
     Resolution.where( resolution_width: payload["resolutionWidth"],
-                      resolution_height: payload["resolutionHeight"]).first_or_create
+    resolution_height: payload["resolutionHeight"]).first_or_create
   end
 
   def populate_ip_addresses
     IpAddress.where(ip_address: payload["ip"]).first_or_create
   end
 
- def populate_payload_requests
-   pr = PayloadRequest.new({
-    url_id: populate_urls.id,
-    requested_at: payload["requestedAt"],
-    responded_in: payload["respondedIn"],
-    reference_id: populate_references.id,
-    request_type_id: populate_request_types.id,
-    parameters: payload["parameters"],
-    event_name_id: populate_event_names.id,
-    software_agent_id: populate_software_agents.id,
-    resolution_id: populate_resolutions.id,
-    ip_address_id: populate_ip_addresses.id,
-    client_id: client_id
-   })
-   payload_status(pr)
- end
+  def populate_payload_requests
+    pr = PayloadRequest.new({
+      url_id: populate_urls.id,
+      requested_at: payload["requestedAt"],
+      responded_in: payload["respondedIn"],
+      reference_id: populate_references.id,
+      request_type_id: populate_request_types.id,
+      parameters: payload["parameters"],
+      event_name_id: populate_event_names.id,
+      software_agent_id: populate_software_agents.id,
+      resolution_id: populate_resolutions.id,
+      ip_address_id: populate_ip_addresses.id,
+      client_id: client_id
+      })
+    payload_status(pr)
+  end
 
- def payload_status(pr)
-   if !pr.save
-     if error_messages(pr).include?("has already been taken")
-       @status = 403
-       @body = "Payload Request must be unique."
-     else
-       @status = 400
-       @body = error_messages(pr)
-     end
-   end
- end
+  def payload_status(pr)
+    if !pr.save
+      if error_messages(pr).include?("has already been taken")
+        @status = 403
+        @body = "Payload Request must be unique."
+      else
+        @status = 400
+        @body = error_messages(pr)
+      end
+    end
+  end
 
- def error_messages(pr)
-   pr.errors.full_messages.join(", ")
- end
-
+  def error_messages(pr)
+    pr.errors.full_messages.join(", ")
+  end
 end

@@ -1,27 +1,27 @@
 class PayloadRequest < ActiveRecord::Base
- validates  :url_id,            presence: true
- validates  :requested_at,      presence: true
- validates  :responded_in,      presence: true
- validates  :reference_id,      presence: true
- validates  :request_type_id,   presence: true
- validates  :parameters,        presence: true
- validates  :event_name_id,     presence: true
- validates  :software_agent_id, presence: true
- validates  :resolution_id,     presence: true
- validates  :ip_address_id,     presence: true
- validates  :client_id,         presence: true
+  validates  :url_id,            presence: true
+  validates  :requested_at,      presence: true
+  validates  :responded_in,      presence: true
+  validates  :reference_id,      presence: true
+  validates  :request_type_id,   presence: true
+  validates  :parameters,        presence: true
+  validates  :event_name_id,     presence: true
+  validates  :software_agent_id, presence: true
+  validates  :resolution_id,     presence: true
+  validates  :ip_address_id,     presence: true
+  validates  :client_id,         presence: true
 
   validates :requested_at, uniqueness:
-            {scope: [:url_id,
-                    :responded_in,
-                    :reference_id,
-                    :request_type_id,
-                    :parameters,
-                    :event_name_id,
-                    :software_agent_id,
-                    :resolution_id,
-                    :ip_address_id,
-                    :client_id]}
+              {scope: [:url_id,
+                      :responded_in,
+                      :reference_id,
+                      :request_type_id,
+                      :parameters,
+                      :event_name_id,
+                      :software_agent_id,
+                      :resolution_id,
+                      :ip_address_id,
+                      :client_id]}
 
   belongs_to :url
   belongs_to :reference

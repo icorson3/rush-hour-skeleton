@@ -45,7 +45,6 @@ class RushHourApp < Sinatra::Base
         body "The Url with path #{relative_path} doesn't exist"
       else
         @url_id = Url.where(url: @u)[0]
-
         erb :show
       end
     end
@@ -55,5 +54,9 @@ class RushHourApp < Sinatra::Base
       @hours = client.find_payloads_by_event_name(event_name)
       @event_name = event_name
       erb :events
+    end
+
+    not_found do
+      erb :error
     end
 end

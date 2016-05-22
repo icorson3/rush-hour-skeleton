@@ -4,8 +4,8 @@ class UserCanSeeClientUrlSpecificStatistics < FeatureTest
 
   def test_user_sees_all_client_url_statistics
     client = Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
-
     payloads = create_payloads_with_same_url(3)
+
     payloads.each {|payload| PayloadAnalyzer.new(payload, 1)}
 
     visit '/sources/jumpstartlab/urls/blog'
@@ -24,7 +24,6 @@ class UserCanSeeClientUrlSpecificStatistics < FeatureTest
 
   def test_it_errors_if_no_data_provided
     client = Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
-
 
     visit '/sources/jumpstartlab/urls/blog'
 
