@@ -351,4 +351,58 @@ class ClientTest < Minitest::Test
     assert client.find_specific_url("party").nil?
   end
 
+  def test_it_can_find_all_urls_for_a_given_client
+    p1 = '{
+        "url":"http://jumpstartlab.com/good",
+        "requestedAt":"'"#{Time.now}"'",
+        "respondedIn":"10",
+        "referredBy":"http://jumpstartlab.com/",
+        "requestType":"GET",
+        "parameters": [],
+        "eventName":"socialLogin",
+        "userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
+        "resolutionWidth":"1920",
+        "resolutionHeight":"1280",
+        "ip":"63.29.38.211"
+        }'
+
+    p2 = '{
+        "url":"http://jumpstartlab.com/party",
+        "requestedAt":"'"#{Time.now}"'",
+        "respondedIn":"10",
+        "referredBy":"http://jumpstartlab.com/",
+        "requestType":"GET",
+        "parameters": [],
+        "eventName":"socialLogin",
+        "userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
+        "resolutionWidth":"1920",
+        "resolutionHeight":"1280",
+        "ip":"63.29.38.211"
+        }'
+
+    p3 = '{
+      "url":"http://jumpstartlab.com/awesome",
+      "requestedAt":"'"#{Time.now}"'",
+      "respondedIn":"10",
+      "referredBy":"http://jumpstartlab.com/",
+      "requestType":"POST",
+      "parameters": [],
+      "eventName":"socialLogin",
+      "userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
+      "resolutionWidth":"1920",
+      "resolutionHeight":"1280",
+      "ip":"63.29.38.211"
+      }'
+
+    payloads = [p1, p2, p3]
+    client = Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
+    payloads.each {|payload| PayloadAnalyzer.new(payload, 1)}
+    urls = [
+            "http://jumpstartlab.com/good",
+            "http://jumpstartlab.com/party",
+            "http://jumpstartlab.com/awesome"
+           ]
+    assert_equal urls, client.find_all_urls
+  end
+
 end

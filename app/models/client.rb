@@ -8,11 +8,6 @@ class Client < ActiveRecord::Base
   has_many :software_agents, through: :payload_requests
   has_many :resolutions, through: :payload_requests
 
-
-  # def requests_for_client
-  #   PayloadRequest.where(client_id: id)
-  # end
-
   def avg_response_time
     payload_requests.average_response_time.to_f.round(1)
   end
@@ -46,7 +41,6 @@ class Client < ActiveRecord::Base
   end
 
   def screen_resolutions
-    require "pry"; binding.pry
     resolutions.all_widths_by_heights.uniq.join(", ")
   end
 
@@ -54,5 +48,10 @@ class Client < ActiveRecord::Base
     if !urls.where(url: root_url+"/"+relative_path)[0].nil?
       urls.where(url: root_url+"/"+relative_path)[0].url
     end
+    #try with pluck
+  end
+
+  def find_all_urls
+    urls.all.pluck(:url)
   end
 end
