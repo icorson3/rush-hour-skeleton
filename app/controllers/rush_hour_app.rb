@@ -36,7 +36,7 @@ class RushHourApp < Sinatra::Base
         @min_response = client[0].min_response_time
         @request_type = client[0].frequent_request_type
         @all_verbs = client[0].list_of_verbs
-        @urls_ordered = client[0].ordered_urls
+        # @urls_ordered = client[0].ordered_urls
         @browsers = client[0].browsers
         @operating_systems = client[0].operating_systems
         @resolutions = client[0].screen_resolutions
