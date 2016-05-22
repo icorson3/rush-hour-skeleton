@@ -50,8 +50,7 @@ class Client < ActiveRecord::Base
   end
 
   def find_specific_url(relative_path)
-    require "pry"; binding.pry
-    urls.where(url: relative_path)
+    urls.where(url: root_url+relative_path)[0].url
   end
 
 end

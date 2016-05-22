@@ -308,7 +308,7 @@ class ClientTest < Minitest::Test
   end
 
   def test_it_can_find_a_specific_url_from_relative_path
-    p1 = '{
+    payload = '{
         "url":"http://jumpstartlab.com/good",
         "requestedAt":"'"#{Time.now}"'",
         "respondedIn":"10",
