@@ -40,7 +40,6 @@ class RushHourApp < Sinatra::Base
         @browsers = client[0].browsers
         @operating_systems = client[0].operating_systems
         @resolutions = client[0].screen_resolutions
-        body "Success"
         erb :index
       end
     end

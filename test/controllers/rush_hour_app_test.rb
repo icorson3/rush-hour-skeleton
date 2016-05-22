@@ -120,7 +120,7 @@ class RushHourAppTest < Minitest::Test
 
     get '/sources/jumpstartlab'
     assert_equal 200, last_response.status
-    assert_equal "Success", last_response.body
+    assert last_response.body.include?("Data Across All Requests")
   end
 
   def test_it_will_return_error_if_client_does_not_exist
