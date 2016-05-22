@@ -327,7 +327,28 @@ class ClientTest < Minitest::Test
 
     url = "http://jumpstartlab.com/good"
 
-    assert_equal url, client.find_specific_url("/good")
+    assert_equal url, client.find_specific_url("good")
+  end
+
+  def test_it_returns_nil_if_url_does_not_exist
+    payload = '{
+        "url":"http://jumpstartlab.com/good",
+        "requestedAt":"'"#{Time.now}"'",
+        "respondedIn":"10",
+        "referredBy":"http://jumpstartlab.com/",
+        "requestType":"GET",
+        "parameters": [],
+        "eventName":"socialLogin",
+        "userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
+        "resolutionWidth":"1920",
+        "resolutionHeight":"1280",
+        "ip":"63.29.38.211"
+        }'
+
+    client = Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
+    PayloadAnalyzer.new(payload, 1)
+
+    assert client.find_specific_url("party").nil?
   end
 
 end

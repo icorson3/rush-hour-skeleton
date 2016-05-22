@@ -7,6 +7,7 @@ gem 'sinatra-activerecord'
 gem 'pry'
 gem 'json'
 gem 'useragent'
+gem 'reek'
 
 
 group :development, :test do
