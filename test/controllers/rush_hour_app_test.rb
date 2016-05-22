@@ -170,10 +170,4 @@ class RushHourAppTest < Minitest::Test
     assert last_response.body.include?("Statistics for URL")
   end
 
-  def test_it_will_return_error_if_client_in_url_does_not_exist
-  end
-
-  def test_it_returns_error_if_url_does_not_exist
-  end
-
 end

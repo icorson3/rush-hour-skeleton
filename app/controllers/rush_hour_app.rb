@@ -31,6 +31,7 @@ class RushHourApp < Sinatra::Base
         body "No data has been provided for this client"
       else
         @identifier = client[0].identifier
+        @all_urls = client[0].find_all_urls
         @average_response = client[0].avg_response_time
         @max_response = client[0].max_response_time
         @min_response = client[0].min_response_time

@@ -20,7 +20,7 @@ class Url < ActiveRecord::Base
   end
 
   def all_response_times
-    payload_requests.order('responded_in desc').pluck(:responded_in)
+    payload_requests.order('responded_in desc').pluck(:responded_in).join(", ")
   end
 
   def average_response_time
@@ -28,19 +28,19 @@ class Url < ActiveRecord::Base
   end
 
   def all_http_verbs
-    self.payload_requests.includes(:request_type).pluck(:request_type)
+    self.payload_requests.includes(:request_type).pluck(:request_type).join(", ")
   end
 
   def top_three_referrers
     referrers = self.payload_requests.group(:reference).order('count_all desc').limit(3).count
-    referrers.map { |k, v| k.reference }
+    referrers.map { |k, v| k.reference }.join(", ")
   end
 
   def top_three_user_agents
     ua = self.payload_requests.group(:software_agent).order('count_all desc').limit(3).count
     ua.map do |k, v|
       "#{k.os}, #{k.browser}"
-    end
+    end.join(", ")
   end
 
 

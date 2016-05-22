@@ -351,9 +351,10 @@ class ClientTest < Minitest::Test
     assert client.find_specific_url("party").nil?
   end
 
-  def test_can_find_all_event_names
+
+  def test_it_can_find_all_urls_for_a_given_client
     p1 = '{
-        "url":"http://jumpstartlab.com/",
+        "url":"http://jumpstartlab.com/good",
         "requestedAt":"'"#{Time.now}"'",
         "respondedIn":"10",
         "referredBy":"http://jumpstartlab.com/",
@@ -367,13 +368,13 @@ class ClientTest < Minitest::Test
         }'
 
     p2 = '{
-        "url":"http://jumpstartlab.com/",
+        "url":"http://jumpstartlab.com/party",
         "requestedAt":"'"#{Time.now}"'",
         "respondedIn":"10",
         "referredBy":"http://jumpstartlab.com/",
         "requestType":"GET",
         "parameters": [],
-        "eventName":"search",
+        "eventName":"socialLogin",
         "userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
         "resolutionWidth":"1920",
         "resolutionHeight":"1280",
@@ -381,7 +382,7 @@ class ClientTest < Minitest::Test
         }'
 
     p3 = '{
-      "url":"http://jumpstartlab.com/",
+      "url":"http://jumpstartlab.com/awesome",
       "requestedAt":"'"#{Time.now}"'",
       "respondedIn":"10",
       "referredBy":"http://jumpstartlab.com/",
@@ -394,9 +395,14 @@ class ClientTest < Minitest::Test
       "ip":"63.29.38.211"
       }'
 
+    payloads = [p1, p2, p3]
     client = Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
-    [p1,p2,p3].each {|payload| PayloadAnalyzer.new(payload, 1)}
-
-    assert_equal [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0], client.find_payloads_by_event_name("socialLogin")
+    payloads.each {|payload| PayloadAnalyzer.new(payload, 1)}
+    urls = [
+      "http://jumpstartlab.com/good",
+      "http://jumpstartlab.com/party",
+      "http://jumpstartlab.com/awesome"
+    ]
+    assert_equal urls, client.find_all_urls
   end
 end
