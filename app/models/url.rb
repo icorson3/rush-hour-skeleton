@@ -28,7 +28,7 @@ class Url < ActiveRecord::Base
   end
 
   def all_http_verbs
-    self.payload_requests.includes(:request_type).pluck(:request_type).join(", ")
+    self.payload_requests.includes(:request_type).pluck(:request_type).uniq.join(", ")
   end
 
   def top_three_referrers

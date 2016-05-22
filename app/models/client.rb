@@ -59,6 +59,6 @@ class Client < ActiveRecord::Base
   end
 
   def find_all_urls
-    urls.all.pluck(:url)
+    urls.all.pluck(:url).uniq
   end
 end

@@ -1,7 +1,11 @@
-<h1>Statistics for Event Name: <%= @event_name.capitalize %></h1>
+<h1 class="text-center">Statistics for Event Name: <br></h1>
+  <h3 class="text-center"><%= @event_name %></h3>
 
+<div class="row well">
+  <p><strong>This is the hourly breakdown of requests received for the event name <%= @event_name %>.</strong></p>
   <% @hours.each_with_index do |num, index|%>
   <% if num != 0 %>
-  <h3><%= "For hour #{index}, there were #{num} requests for #{@event_name}." %></h3>
+  <p><%= "For hour #{index}, there were #{num} requests received." %></p>
   <% end %>
   <% end %>
+</div>

@@ -1,21 +1,29 @@
-<h1>Welcome to your dashboard, <%= @identifier %> </h1>
-<!-- <%= @client_identifier %> -->
-<h2>Data Across All Requests</h2>
-<p>Average Response Time: <%= @average_response %> </p>
-<p>Maximum Response Time: <%= @max_response %> </p>
-<p>Minimum Response Time: <%= @min_response %> </p>
-<p>Most Frequent Request Type: <%= @request_type %> </p>
-<p>All HTTP Verbs Used: <%= @all_verbs %> </p>
-<p>URLs from Most to Least Requested: <%= @urls_ordered %> </p>
+<h1 class="text-center">Welcome to your Dashboard, <%= @client.identifier.capitalize %> </h1>
+<p class="text-center">This page contains a breakdown of information across all requests. To see statistics specific to a url, check out the url links.</p>
 
-<h2>User Machine Information</h2>
-<h3>Breakdown Across All Requests</h3>
-<p>Web Browswers: <%= @browsers %> </p>
-<p>Operating Systems: <%= @operating_systems %> </p>
-<p>Screen Resolutions: <%= @resolutions %> </p>
+<div class="row well text-center">
 
-<h2>Your URLs</h2>
-<h3>Click for individual URL statistics</h3>
-<% @all_urls.each do |url| %>
-<a href="/sources/<%= @identifier %>/urls/<%= url.split("/").last%>"> <%= url %> </a> <br>
-<% end %>
+  <div class="col-md-4">
+    <h2>Machine Information</h2>
+    <p><strong>Web Browswers:</strong> <%= @client.browsers %> </p>
+    <p><strong>Operating Systems:</strong> <%= @client.operating_systems %> </p>
+    <p><strong>Screen Resolutions:</strong> <%= @client.screen_resolutions %> </p>
+  </div>
+
+  <div class="col-md-4">
+    <h2>Requests & Responses</h2>
+    <p><strong>Average Response Time:</strong> <%= @client.avg_response_time %> </p>
+    <p><strong>Maximum Response Time:</strong> <%= @client.max_response_time %> </p>
+    <p><strong>Minimum Response Time:</strong> <%= @client.min_response_time %> </p>
+    <p><strong>Most Frequent Request Type:</strong> <%= @client.frequent_request_type %> </p>
+    <p><strong>All HTTP Verbs Used:</strong> <%= @client.list_of_verbs %> </p>
+    <p><strong>URLs from Most to Least Requested:</strong> <%= @client.ordered_urls %> </p>
+  </div>
+
+  <div class="col-md-4">
+    <h2>Your URLs</h2>
+    <% @all_urls.each do |url| %>
+    <a href="/sources/<%= @identifier %>/urls/<%= url.split("/").last%>"> <%= url %> </a> <br>
+    <% end %>
+  </div>
+</div>
