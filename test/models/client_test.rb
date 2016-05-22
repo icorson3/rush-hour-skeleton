@@ -351,4 +351,52 @@ class ClientTest < Minitest::Test
     assert client.find_specific_url("party").nil?
   end
 
+  def test_can_find_all_event_names
+    p1 = '{
+        "url":"http://jumpstartlab.com/",
+        "requestedAt":"'"#{Time.now}"'",
+        "respondedIn":"10",
+        "referredBy":"http://jumpstartlab.com/",
+        "requestType":"GET",
+        "parameters": [],
+        "eventName":"socialLogin",
+        "userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
+        "resolutionWidth":"1920",
+        "resolutionHeight":"1280",
+        "ip":"63.29.38.211"
+        }'
+
+    p2 = '{
+        "url":"http://jumpstartlab.com/",
+        "requestedAt":"'"#{Time.now}"'",
+        "respondedIn":"10",
+        "referredBy":"http://jumpstartlab.com/",
+        "requestType":"GET",
+        "parameters": [],
+        "eventName":"search",
+        "userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
+        "resolutionWidth":"1920",
+        "resolutionHeight":"1280",
+        "ip":"63.29.38.211"
+        }'
+
+    p3 = '{
+      "url":"http://jumpstartlab.com/",
+      "requestedAt":"'"#{Time.now}"'",
+      "respondedIn":"10",
+      "referredBy":"http://jumpstartlab.com/",
+      "requestType":"POST",
+      "parameters": [],
+      "eventName":"socialLogin",
+      "userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
+      "resolutionWidth":"1920",
+      "resolutionHeight":"1280",
+      "ip":"63.29.38.211"
+      }'
+
+    client = Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
+    [p1,p2,p3].each {|payload| PayloadAnalyzer.new(payload, 1)}
+
+    assert_equal [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0], client.find_payloads_by_event_name("socialLogin")
+  end
 end

@@ -1,0 +1,7 @@
+<h1>Statistics for Event Name: <%= @event_name.capitalize %></h1>
+
+  <% @hours.each_with_index do |num, index|%>
+  <% if num != 0 %>
+  <h3><%= "For hour #{index}, there were #{num} requests for #{@event_name}." %></h3>
+  <% end %>
+  <% end %>
