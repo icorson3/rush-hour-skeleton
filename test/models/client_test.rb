@@ -405,4 +405,8 @@ class ClientTest < Minitest::Test
     ]
     assert_equal urls, client.find_all_urls
   end
+
+  # def test_it_has_many_request_types_through_payload_requests
+  #   assert_select(:identifier, @payloads, )
+  # end
 end

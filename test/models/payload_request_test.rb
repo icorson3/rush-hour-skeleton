@@ -131,4 +131,42 @@ class PayloadRequestTest < Minitest::Test
 
     assert_equal 0, PayloadRequest.minimum_response_time
   end
+
+  def test_it_can_format_arrays
+    times = [21, 20]
+    assert_equal 1, PayloadRequest.formatted_arrays(times)[-3]
+  end
+  
+  def test_it_can_find_hour_requested_at
+    payload_1 = PayloadRequest.create({
+         "url_id" => 1,
+         "requested_at" => "2013-02-16 21:38:28 -0700",
+         "responded_in" => 37,
+         "reference_id" => 1,
+         "request_type_id" => 1,
+         "parameters" => [],
+         "event_name_id" =>  1,
+         "software_agent_id" => 1,
+         "resolution_id" => 1,
+         "ip_address_id" => 1,
+         "client_id" => 1
+        })
+    payload_2 = PayloadRequest.create({
+         "url_id" => 2,
+         "requested_at" => "2013-02-16 20:38:28 -0700",
+         "responded_in" => 37,
+         "reference_id" => 2,
+         "request_type_id" => 2,
+         "parameters" => [],
+         "event_name_id" =>  2,
+         "software_agent_id" => 2,
+         "resolution_id" => 2,
+         "ip_address_id" => 2,
+         "client_id" => 2
+        })
+    payloads = [payload_1, payload_2]
+
+    assert_equal 1, PayloadRequest.find_hour_requested_at(payloads)[3]
+  end
+
 end
