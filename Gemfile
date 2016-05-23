@@ -8,6 +8,7 @@ gem 'pry'
 gem 'json'
 gem 'useragent'
 gem 'reek'
+gem 'simplecov'
 
 
 group :development, :test do
