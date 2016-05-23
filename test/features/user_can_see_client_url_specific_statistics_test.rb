@@ -27,6 +27,6 @@ class UserCanSeeClientUrlSpecificStatistics < FeatureTest
 
     visit '/sources/jumpstartlab/urls/blog'
 
-    assert page.has_content? "The Url with path blog doesn't exist"
+    assert page.has_content? "The url with path 'blog' doesn't exist"
   end
 end

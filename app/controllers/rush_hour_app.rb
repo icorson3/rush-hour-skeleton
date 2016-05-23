@@ -42,7 +42,8 @@ class RushHourApp < Sinatra::Base
       @u = @client.find_specific_url(relative_path)
       if @u.nil?
         status 403
-        body "The Url with path #{relative_path} doesn't exist"
+        @error = "The url with path '#{relative_path}' doesn't exist"
+        erb :error
       else
         @url_id = Url.where(url: @u)[0]
         erb :show
@@ -57,6 +58,7 @@ class RushHourApp < Sinatra::Base
     end
 
     not_found do
+      @error = nil
       erb :error
     end
 end

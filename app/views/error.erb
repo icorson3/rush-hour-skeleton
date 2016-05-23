@@ -1,7 +1,8 @@
 <div class="text-center">
-<h1>Error Page</h1><br>
+  <%@error.nil? ? @error = "This page doesn't exist." : @error %>
+  <h1><%= @error%></h1><br>
 
-<img src="/mchammer.gif"/>
-<img src="/mchammer.gif"/>
-<img src="/mchammer.gif"/>
+  <img src="/mchammer.gif"/>
+  <img src="/mchammer.gif"/>
+  <img src="/mchammer.gif"/>
 </div>
