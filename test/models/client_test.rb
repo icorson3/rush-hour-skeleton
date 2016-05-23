@@ -453,7 +453,7 @@ class ClientTest < Minitest::Test
       PayloadAnalyzer.new(p1, 1)
 
       hours_for_event_name =
-      [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
       assert_equal hours_for_event_name, client.find_payloads_by_event_name("hammerTime")
   end
