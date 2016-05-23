@@ -132,4 +132,14 @@ class RequestTypeTest < Minitest::Test
 
     assert_equal "GET", RequestType.most_frequent_request_verbs
   end
+
+  def test_it_has_relationship_with_url_through_payload
+    rt = RequestType.new
+    assert_respond_to(rt, :urls)
+  end
+
+  def test_it_has_relationship_with_client_through_payload
+    rt = RequestType.new
+    assert_respond_to(rt, :clients)
+  end
 end

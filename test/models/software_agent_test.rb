@@ -103,4 +103,14 @@ class SoftwareAgentTest < Minitest::Test
 
     assert_equal ["OS X 10.8.2", "OS X 10.4.1"], SoftwareAgent.all_os
   end
+
+  def test_it_has_relationship_with_client_through_payload
+    s = SoftwareAgent.new
+    assert_respond_to(s, :clients)
+  end
+
+  def test_it_has_relationship_with_url_through_payload
+    s = SoftwareAgent.new
+    assert_respond_to(s, :urls)
+  end
 end

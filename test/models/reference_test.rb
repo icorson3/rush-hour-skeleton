@@ -32,4 +32,9 @@ class ReferenceTest < Minitest::Test
     r = Reference.new
     assert_respond_to(r, :payload_requests)
   end
+
+  def test_it_has_relationship_with_url_through_payload
+    r = Reference.new
+    assert_respond_to(r, :urls)
+  end
 end

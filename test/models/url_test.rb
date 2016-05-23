@@ -348,4 +348,24 @@ include TestHelpers
 
     assert_equal agents_list, Url.find(1).top_three_user_agents
   end
+
+  def test_it_has_relationship_with_client_through_payload
+    u = Url.new
+    assert_respond_to(u, :clients)
+  end
+
+  def test_it_has_relationship_with_request_types_through_payload
+    u = Url.new
+    assert_respond_to(u, :request_types)
+  end
+
+  def test_it_has_relationship_with_references_through_payload
+    u = Url.new
+    assert_respond_to(u, :references)
+  end
+
+  def test_it_has_relationship_with_software_agents_through_payload
+    u = Url.new
+    assert_respond_to(u, :software_agents)
+  end
 end

@@ -3,6 +3,9 @@ require_relative "../test_helper"
 class ClientTest < Minitest::Test
   include TestHelpers
 
+  # def setup
+  # end
+
   def test_it_has_relationship_with_payload_request
     c = Client.new
     assert_respond_to(c, :payload_requests)
@@ -405,8 +408,4 @@ class ClientTest < Minitest::Test
     ]
     assert_equal urls, client.find_all_urls
   end
-
-  # def test_it_has_many_request_types_through_payload_requests
-  #   assert_select(:identifier, @payloads, )
-  # end
 end
