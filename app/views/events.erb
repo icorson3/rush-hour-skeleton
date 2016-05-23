@@ -4,8 +4,8 @@
 <div class="row well">
   <p><strong>This is the hourly breakdown of requests received for the event name <%= @event_name %>.</strong></p>
   <% @hours.each_with_index do |num, index|%>
-  <% if num != 0 %>
-  <p><%= "For hour #{index}, there were #{num} requests received." %></p>
-  <% end %>
+    <% if num != 0 %>
+      <p><%= "For hour #{index}, there were #{num} requests received." %></p>
+    <% end %>
   <% end %>
 </div>

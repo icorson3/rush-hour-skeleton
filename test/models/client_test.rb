@@ -3,9 +3,37 @@ require_relative "../test_helper"
 class ClientTest < Minitest::Test
   include TestHelpers
 
+  # def setup
+  # end
+
   def test_it_has_relationship_with_payload_request
     c = Client.new
     assert_respond_to(c, :payload_requests)
+  end
+
+  def test_it_has_relationship_with_request_types
+    c = Client.new
+    assert_respond_to(c, :request_types)
+  end
+
+  def test_it_has_relationship_with_urls
+    c = Client.new
+    assert_respond_to(c, :urls)
+  end
+
+  def test_it_has_relationship_with_software_agents
+    c = Client.new
+    assert_respond_to(c, :software_agents)
+  end
+
+  def test_it_has_relationship_with_resolutions
+    c = Client.new
+    assert_respond_to(c, :resolutions)
+  end
+
+  def test_it_has_relationship_with_event_names
+    c = Client.new
+    assert_respond_to(c, :event_names)
   end
 
   def test_validations_work
@@ -404,5 +432,29 @@ class ClientTest < Minitest::Test
       "http://jumpstartlab.com/awesome"
     ]
     assert_equal urls, client.find_all_urls
+  end
+
+  def test_it_can_find_payloads_by_event_name
+    p1 = '{
+        "url":"http://jumpstartlab.com/good",
+        "requestedAt":"'"#{Time.now}"'",
+        "respondedIn":"10",
+        "referredBy":"http://jumpstartlab.com/",
+        "requestType":"GET",
+        "parameters": [],
+        "eventName":"hammerTime",
+        "userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
+        "resolutionWidth":"1920",
+        "resolutionHeight":"1280",
+        "ip":"63.29.38.211"
+        }'
+
+      client = Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
+      PayloadAnalyzer.new(p1, 1)
+
+      hours_for_event_name =
+      [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+      assert_equal hours_for_event_name, client.find_payloads_by_event_name("hammerTime")
   end
 end

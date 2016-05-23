@@ -132,4 +132,9 @@ class EventNameTest < Minitest::Test
 
     assert_equal en, EventName.most_to_least_requested_event_names
   end
+
+  def test_has_relationship_with_client_through_payload
+    e = EventName.new
+    assert_respond_to(e, :clients)
+  end
 end
