@@ -10,8 +10,7 @@ class RushHourApp < Sinatra::Base
     client = Client.where(identifier: identifier)
     if client.empty?
       status 403
-      @error = "The client #{identifier} has not been registered with the application."
-      erb :error
+      render_error_page("The client #{identifier} has not been registered with the application.")
     else
       id = client[0].id
       payload = PayloadAnalyzer.new(params[:payload], id)
@@ -21,47 +20,51 @@ class RushHourApp < Sinatra::Base
   end
 
   get '/sources/:identifier' do |identifier|
-    client = Client.where(identifier: identifier)
-    if client.empty?
+    if find_client(identifier).empty?
       status 403
-      @error = "The Client with identifier '#{identifier}' doesn't exist"
-      erb :error
+      render_error_page("The Client with identifier '#{identifier}' doesn't exist")
     else
-      requests = PayloadRequest.where(client_id: client[0].id)
+      @client = find_client(identifier)[0]
+      requests = PayloadRequest.where(client_id: @client.id)
       if requests.empty?
         status 403
-        @error = "No data has been provided for this client"
-        erb :error
+        render_error_page("No data has been provided for this client")
       else
-        @client = client[0]
         @all_urls = @client.find_all_urls
         erb :index
       end
     end
   end
 #need to handle if client identifier doesn't exist
-    get '/sources/:identifier/urls/:relative_path' do |identifier, relative_path|
-      @client = Client.where(identifier: identifier)[0]
-      @u = @client.find_specific_url(relative_path)
-      if @u.nil?
-        status 403
-        @error = "The url with path '#{relative_path}' doesn't exist"
-        erb :error
-      else
-        @url_id = Url.where(url: @u)[0]
-        erb :show
-      end
+  get '/sources/:identifier/urls/:relative_path' do |identifier, relative_path|
+    @client = Client.where(identifier: identifier)[0]
+    @u = @client.find_specific_url(relative_path)
+    if @u.nil?
+      status 403
+      render_error_page("The url with path '#{relative_path}' doesn't exist")
+    else
+      @url_id = Url.where(url: @u)[0]
+      erb :show
     end
+  end
 #need to handle when client identifier doesn't exist or when even name doesn't exist
-    get '/sources/:identifier/events/:event_name' do |identifier, event_name|
-      client = Client.where(identifier: identifier)[0]
-      @hours = client.find_payloads_by_event_name(event_name)
-      @event_name = event_name
-      erb :events
-    end
+  get '/sources/:identifier/events/:event_name' do |identifier, event_name|
+    client = Client.where(identifier: identifier)[0]
+    @hours = client.find_payloads_by_event_name(event_name)
+    @event_name = event_name
+    erb :events
+  end
 
-    not_found do
-      @error = nil
-      erb :error
-    end
+  not_found do
+    render_error_page("Error")
+  end
+
+  def render_error_page(body)
+    @error = body
+    erb :error
+  end
+
+  def find_client(identifier)
+    Client.where(identifier: identifier)
+  end
 end
