@@ -21,7 +21,7 @@ class RushHourAppTest < Minitest::Test
     post '/sources',  {identifier: "jumpstartlab", rootUrl: "http://jumpstartlab.com"}
     assert_equal 1, Client.count
     assert_equal 403, last_response.status
-    assert_equal "The client with identifier 'jumpstartlab' already exists.", last_response.body
+    assert last_response.body.include?("The client with identifier 'jumpstartlab' already exists.")
 
   end
 
@@ -103,7 +103,7 @@ class RushHourAppTest < Minitest::Test
     post '/sources/jumpstartlab/data', raw_payload
     assert_equal 0, Client.count
     assert_equal 403, last_response.status
-    assert_equal "The client jumpstartlab has not been registered with the application.", last_response.body
+    assert last_response.body.include?("The client jumpstartlab has not been registered with the application")
   end
 
   def test_it_works_if_client_and_client_data_both_exist
@@ -134,7 +134,7 @@ class RushHourAppTest < Minitest::Test
 
     get '/sources/jumpstartlab'
     assert_equal 403, last_response.status
-    assert_equal "The Client with identifier 'jumpstartlab' doesn't exist", last_response.body
+    assert last_response.body.include?("The client jumpstartlab has not been registered with the application.")
   end
 
   def test_it_will_return_error_if_client_data_does_not_exist
@@ -146,7 +146,7 @@ class RushHourAppTest < Minitest::Test
 
     get '/sources/jumpstartlab'
     assert_equal 403, last_response.status
-    assert_equal "No data has been provided for this client", last_response.body
+    assert last_response.body.include?("No data has been provided for this client")
   end
 
   def test_it_successfully_shows_url_page_when_data_exists

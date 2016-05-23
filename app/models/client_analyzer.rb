@@ -11,14 +11,16 @@ class ClientAnalyzer
 
   def create_or_find_client
     cs = Client.new(identifier: identifier, root_url: root_url)
-    if !cs.save
-      if cs.errors.full_messages.join(", ") == "Identifier has already been taken"
-        @status = 403
-        @body = "The client with identifier '#{identifier}' already exists."
-      else
-        @status = 400
-        @body = cs.errors.full_messages.join(", ")
-      end
+    check_error_messages(cs) unless cs.save
+  end
+
+  def check_error_messages(client)
+    if client.errors.full_messages.join(", ") == "Identifier has already been taken"
+      @status = 403
+      @body = "The client with identifier '#{identifier}' already exists."
+    else
+      @status = 400
+      @body = client.errors.full_messages.join(", ")
     end
   end
 end
