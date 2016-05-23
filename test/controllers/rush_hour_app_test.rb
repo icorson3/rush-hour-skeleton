@@ -120,7 +120,7 @@ class RushHourAppTest < Minitest::Test
 
     get '/sources/jumpstartlab'
     assert_equal 200, last_response.status
-    assert last_response.body.include?("Data Across All Requests")
+    assert last_response.body.include?("Requests & Responses")
   end
 
   def test_it_will_return_error_if_client_does_not_exist
@@ -167,13 +167,6 @@ class RushHourAppTest < Minitest::Test
     PayloadAnalyzer.new(payload, 1)
     get 'sources/jumpstartlab/urls/good'
     assert_equal 200, last_response.status
-    assert last_response.body.include?("Statistics for URL")
+    assert last_response.body.include?("Statistics for:")
   end
-
-  def test_it_will_return_error_if_client_in_url_does_not_exist
-  end
-
-  def test_it_returns_error_if_url_does_not_exist
-  end
-
 end

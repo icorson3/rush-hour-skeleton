@@ -21,5 +21,4 @@ class ClientAnalyzer
       end
     end
   end
-
 end
