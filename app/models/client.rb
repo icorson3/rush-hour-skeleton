@@ -46,9 +46,9 @@ class Client < ActiveRecord::Base
   end
 
   def find_specific_url(relative_path)
-    if find_all_urls.any? {|url| url.include?(relative_path)}
-      urls.where(url: root_url+"/"+relative_path)[0].url
-    end
+   if !urls.where(url: root_url+"/"+relative_path)[0].nil?
+     urls.where(url: root_url+"/"+relative_path)[0].url
+   end
   end
 
   def find_payloads_by_event_name(name)
@@ -60,4 +60,5 @@ class Client < ActiveRecord::Base
   def find_all_urls
     urls.all.pluck(:url).uniq
   end
+  
 end
