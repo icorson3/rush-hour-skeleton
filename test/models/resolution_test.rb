@@ -89,4 +89,9 @@ class ResolutionTest < Minitest::Test
 
     assert_equal r, Resolution.all_widths_by_heights
   end
+
+  def test_it_has_relationship_with_client_through_payload
+    r = Resolution.new
+    assert_respond_to(r, :clients)
+  end
 end
