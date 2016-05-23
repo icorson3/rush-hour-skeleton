@@ -437,7 +437,7 @@ class ClientTest < Minitest::Test
   def test_it_can_find_payloads_by_event_name
     p1 = '{
         "url":"http://jumpstartlab.com/good",
-        "requestedAt":"'"#{Time.now}"'",
+        "requestedAt":"2013-02-16 20:38:28 -0700",
         "respondedIn":"10",
         "referredBy":"http://jumpstartlab.com/",
         "requestType":"GET",
