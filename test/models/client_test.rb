@@ -8,6 +8,31 @@ class ClientTest < Minitest::Test
     assert_respond_to(c, :payload_requests)
   end
 
+  def test_it_has_relationship_with_request_types
+    c = Client.new
+    assert_respond_to(c, :request_types)
+  end
+
+  def test_it_has_relationship_with_urls
+    c = Client.new
+    assert_respond_to(c, :urls)
+  end
+
+  def test_it_has_relationship_with_software_agents
+    c = Client.new
+    assert_respond_to(c, :software_agents)
+  end
+
+  def test_it_has_relationship_with_resolutions
+    c = Client.new
+    assert_respond_to(c, :resolutions)
+  end
+
+  def test_it_has_relationship_with_event_names
+    c = Client.new
+    assert_respond_to(c, :event_names)
+  end
+
   def test_validations_work
     c = Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
     assert c.valid?
