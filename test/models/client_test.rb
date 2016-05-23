@@ -430,4 +430,28 @@ class ClientTest < Minitest::Test
     ]
     assert_equal urls, client.find_all_urls
   end
+
+  def test_it_can_find_payloads_by_event_name
+    p1 = '{
+        "url":"http://jumpstartlab.com/good",
+        "requestedAt":"'"#{Time.now}"'",
+        "respondedIn":"10",
+        "referredBy":"http://jumpstartlab.com/",
+        "requestType":"GET",
+        "parameters": [],
+        "eventName":"hammerTime",
+        "userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
+        "resolutionWidth":"1920",
+        "resolutionHeight":"1280",
+        "ip":"63.29.38.211"
+        }'
+
+      client = Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
+      PayloadAnalyzer.new(p1, 1)
+
+      hours_for_event_name =
+      [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+      assert_equal hours_for_event_name, client.find_payloads_by_event_name("hammerTime")
+  end
 end
