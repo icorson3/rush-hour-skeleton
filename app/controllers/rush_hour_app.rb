@@ -37,7 +37,8 @@ class RushHourApp < Sinatra::Base
     if find_client(identifier).empty?
       client_not_registered(identifier)
     else
-      @u = find_client(identifier)[0].find_specific_url(relative_path)
+      client = find_client(identifier)[0]
+      @u = client.find_specific_url(relative_path)
       if @u.nil?
         status 403
         render_error_page("The url with path '#{relative_path}' doesn't exist")
