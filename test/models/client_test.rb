@@ -331,9 +331,29 @@ class ClientTest < Minitest::Test
         }'
     client = Client.create({identifier: "jumpstartlab", root_url: "http://jumpstartlab.com"})
     payloads = [p1, p2]
-    payloads.each {|payload| PayloadAnalyzer.new(payload, 1)}
+
+    #client.add_payloads(payloads)
+
+    payloads.each {|payload| PayloadAnalyzer.new(payload, client.id)}
     assert_equal "1920x1280, 1366x768", client.screen_resolutions
   end
+
+
+  describe "can get screen resolutions" do
+    let(:payload) {}
+
+    before do
+      setup work here.
+      .....process_payloads...
+    end
+
+    it 'returns the resolution as a string' do
+
+    end
+  end
+
+
+
 
   def test_it_can_find_a_specific_url_from_relative_path
     payload = '{

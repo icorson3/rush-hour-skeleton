@@ -42,6 +42,9 @@ class Client < ActiveRecord::Base
   end
 
   def screen_resolutions
+    unless resolutions.any?
+      return ""
+    end
     resolutions.all_widths_by_heights.uniq.join(", ")
   end
 
